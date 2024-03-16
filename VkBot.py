@@ -54,7 +54,50 @@ class VkBot:
         pass
 
     def shs3_clicked_handler(self, event):
-        pass
+        if event.type == VkBotEventType.MESSAGE_NEW:
+            if event.object.text() == "Кафедра СГН3":
+                message = "Описание кафедры"
+                keyboard = {
+                    "one_time": False, "buttons": [
+                        [
+                            {
+                                "action": {
+                                    "type": "text",
+                                    "label": "Заведующий кафедрой"
+                                },
+                                "color": "green"
+                            },
+                            {
+                                "action": {
+                                    "type": "text",
+                                    "label": "Направление подготовки"
+                                },
+                                "color": "green"
+                            },
+                            {
+                                "action": {
+                                    "type": "text",
+                                    "label": "Проходной балл в этом году"
+                                },
+                                "color": "green"
+                            }
+                        ],
+                        [
+                            {
+                                "action": {
+                                    "type": "text",
+                                    "label": "Назад"
+                                },
+                                "color": "negative"
+                            }
+                        ]
+                    ]
+                }
+                self.vk.messages.send(
+                    peer_id=event.object.peer_id,
+                    random_id=get_random_id(),
+                    message=message,
+                    keyboard=keyboard)
 
     def shs4_clicked_handler(self, event):
         pass
