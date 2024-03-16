@@ -1,4 +1,5 @@
 import vk_api
+from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.utils import get_random_id
 from vk_api.bot_longpoll import VkBotEventType, VkBotLongPoll
 from enum import Enum
@@ -10,7 +11,6 @@ class VkBotState(Enum):
     SHS2_CLICKED = 2
     SHS3_CLICKED = 3
     SHS4_CLICKED = 4
-
 
 class VkBot:
     def __init__(self, group_id, group_token):
@@ -44,6 +44,54 @@ class VkBot:
 
             self.shs4_clicked_handler(event)
 
+    messages = [
+        {
+            "text": 'Добро пожаловать на факультет "Социальные и Гуманитарные Науки!" Нажмите на кнопку, чтобы узнать больше о кафедрах.',
+            "photo": "photo_url",
+            "buttons": ["СГН1", "СГН2", "СГН3", "СГН4"]
+        },
+        {
+            "text": 'Кафедра СГН1 преподаёт дисциплину "История России" всем студентам Бауманки.',
+            "photo": "photo_url",
+            "buttons": ["Заведующий кафедрой СГН1", "Преподавательский состав"]
+        },
+        {
+            "text": "Описание кафедры СГН2",
+            "photo": "photo_url",
+            "buttons": ["Заведующий кафедрой СГН2", "Преподавательский состав"]
+        },
+        {
+            "text": "Описание кафедры СГН3",
+            "photo": "photo_url",
+            "buttons": ["Заведующий кафедрой СГН3", "Преподавательский состав"]
+        },
+        {
+            "text": "Описание кафедры СГН4",
+            "photo": "photo_url",
+            "buttons": ["Заведующий кафедрой СГН4", "Преподавательский состав"]
+        },
+        {
+            "text": "Контактная информация заведующего кафедрой СГН1",
+            "photo": "photo_url",
+            "buttons": ["Назад"]
+        },
+        {
+            "text": "Контактная информация заведующего кафедрой СГН2",
+            "photo": "photo_url",
+            "buttons": ["Назад"]
+        },
+        {
+            "text": "Контактная информация заведующего кафедрой СГН3",
+            "photo": "photo_url",
+            "buttons": ["Назад"]
+        },
+        {
+            "text": "Контактная информация заведующего кафедрой СГН4",
+            "photo": "photo_url",
+            "buttons": ["Назад"]
+        }
+    ]
+
     def init_state_handler(self, event):
         pass
 
@@ -54,50 +102,22 @@ class VkBot:
         pass
 
     def shs3_clicked_handler(self, event):
-        if event.type == VkBotEventType.MESSAGE_NEW:
-            if event.object.text() == "Кафедра СГН3":
-                message = "Описание кафедры"
-                keyboard = {
-                    "one_time": False, "buttons": [
-                        [
-                            {
-                                "action": {
-                                    "type": "text",
-                                    "label": "Заведующий кафедрой"
-                                },
-                                "color": "green"
-                            },
-                            {
-                                "action": {
-                                    "type": "text",
-                                    "label": "Направление подготовки"
-                                },
-                                "color": "green"
-                            },
-                            {
-                                "action": {
-                                    "type": "text",
-                                    "label": "Проходной балл в этом году"
-                                },
-                                "color": "green"
-                            }
-                        ],
-                        [
-                            {
-                                "action": {
-                                    "type": "text",
-                                    "label": "Назад"
-                                },
-                                "color": "negative"
-                            }
-                        ]
-                    ]
-                }
-                self.vk.messages.send(
-                    peer_id=event.object.peer_id,
-                    random_id=get_random_id(),
-                    message=message,
-                    keyboard=keyboard)
+        keyboard = VkKeyboard(inline=True)
+        keyboard.add_callback_button("Заведующий кафедрой", color=VkKeyboardColor.SECONDARY)
+        keyboard.add_line()
+        keyboard.add_callback_button("Преподавательский состав", color=VkKeyboardColor.GREEN)
+        keyboard.add_line()
+        keyboard.add_button("Назад", color=VkKeyboardColor.NEGATIVE)
+
+
+
+        #message = messages[3]
+        #self.send_message(event.object.peer_id, message["text"], message["photo"], message["buttons"])
+        #self.vk.messages.send(
+        #    peer_id=event.object.peer_id,
+        #    random_id=get_random_id(),
+        #    message=message,
+        #    keyboard=keyboard)
 
     def shs4_clicked_handler(self, event):
         pass
