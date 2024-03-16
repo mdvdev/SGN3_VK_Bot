@@ -121,4 +121,5 @@ class VkBot:
         #    keyboard=keyboard)
 
     def shs4_clicked_handler(self, event):
+
         pass
