@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="SHS3_clicked realisation">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VkBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/VkBot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sgn.jpg" beforeDir="false" />
-    </list>
+    <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="SHS3_clicked realisation" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -91,7 +87,23 @@
       <option name="project" value="LOCAL" />
       <updated>1710676630550</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="SHS3_clicked realisation">
+      <option name="closed" value="true" />
+      <created>1710695418006</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1710695418006</updated>
+    </task>
+    <task id="LOCAL-00004" summary="SHS3_clicked realisation">
+      <option name="closed" value="true" />
+      <created>1710695818895</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1710695818895</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
