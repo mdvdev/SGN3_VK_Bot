@@ -37,6 +37,25 @@ def get_keyboard_2():
     keyboard_2.add_line()
     keyboard_2.add_callback_button('Назад', color=VkKeyboardColor.NEGATIVE, payload={"type": "BACK"})
 
+def upload_photo(vk, photo):
+        upload = VkUpload(vk)
+        response = upload.photo_messages(photo)[0]
+        owner_id = response['owner_id']
+        photo_id = response['id']
+        access_key = response['access_key']
+
+        return owner_id, photo_id, access_key
+
+def send_message(vk, peer_id, owner_id, photo_id, access_key, message):
+    attachment = f'photo{owner_id}_{photo_id}_{access_key}'
+    vk.messages.send(
+    random_id=get_random_id(),
+    peer_id=peer_id,
+    message=message,
+    attachment=attachment
+)
+
+
 
 class VkBot:
     def __init__(self, group_id, group_token):
@@ -100,12 +119,8 @@ class VkBot:
     def deanery_clicked_handler(self, event):
         last_id = self.vk.messages.edit(peer_id=event.obj.peer_id, message='❕Кабинеты деканата располагаются в УЛК на 7 этаже.\n Декан: Ремарчук Валерий Николаевич (кабинет 703л)\nЗам. декана по молодёжной политике\n и воспитательной деятельности: Гаврилова Юлия Викторовна', conversation_message_id=event.obj.conversation_message_id)
 
-    def add_image(self):
-        image = "C:/sgn.jpg"
-        upload = VkUpload(self)
-        attachments = []
-        upload_image = upload.photo_messages(photos=image)[0]
-        attachments.append('photo{}_{}'.format(upload_image['owner_id'], upload_image['id']))
+    
+        
 
 
 
