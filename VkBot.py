@@ -149,9 +149,9 @@ class VkBot:
     def shs3_clicked_handler(self, event):
         self.vk.messages.edit(
             peer_id=event.object.peer_id,
-            random_id=get_random_id(),
-            attachment=self.attachments['shs3_state'],
             message=MESSAGES['shs3_state'],
+            conversation_message_id=event.obj.conversation_message_id,
+            attachment=self.attachments['shs3_state'],
             keyboard=self.shs3_keyboard().get_keyboard()
         )
 
@@ -185,9 +185,9 @@ class VkBot:
     def shs4_clicked_handler(self, event):
         self.vk.messages.edit(
             peer_id=event.object.peer_id,
-            random_id=get_random_id(),
-            attachment=self.attachments['shs4_state'],
             message=MESSAGES['shs4_state'],
+            conversation_message_id=event.obj.conversation_message_id,
+            attachment=self.attachments['shs4_state'],
             keyboard=self.shs4_keyboard().get_keyboard()
         )
 
@@ -197,19 +197,6 @@ class VkBot:
             label="Заведующий кафедрой",
             color=VkKeyboardColor.POSITIVE,
             payload={"type": "open_link", "link": "http://sgn4.bmstu.ru/ivlev"},
-        )
-        keyboard.add_line()
-        keyboard.add_callback_button(
-            label="Научная работа",
-            color=VkKeyboardColor.POSITIVE,
-            payload={"text": "Если вы собираетесь поступать на аспирантуру, найти научную работу здесь:\n",
-                     "type": "open_link", "link": "http://fsgn.bmstu.ru/analytics/index.php?p=science"},
-        )
-        keyboard.add_line()
-        keyboard.add_callback_button(
-            label="Учебная работа",
-            color=VkKeyboardColor.POSITIVE,
-            payload={"text": "СГН4 не ведёт подготовку кадров."}
         )
         keyboard.add_line()
         keyboard.add_callback_button(
