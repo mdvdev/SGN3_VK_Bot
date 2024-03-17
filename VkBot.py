@@ -147,8 +147,8 @@ class VkBot:
         pass
 
     def shs3_clicked_handler(self, event):
-        self.vk.messages.edit(
-            peer_id=event.object.peer_id,
+        last_id = self.vk.messages.edit(
+            peer_id=event.obj.peer_id,
             message=MESSAGES['shs3_state'],
             conversation_message_id=event.obj.conversation_message_id,
             keyboard=self.shs3_keyboard().get_keyboard(),
@@ -183,8 +183,8 @@ class VkBot:
         return keyboard
 
     def shs4_clicked_handler(self, event):
-        self.vk.messages.edit(
-            peer_id=event.object.peer_id,
+        last_id = self.vk.messages.edit(
+            peer_id=event.obj.peer_id,
             message=MESSAGES['shs4_state'],
             conversation_message_id=event.obj.conversation_message_id,
             keyboard=self.shs4_keyboard().get_keyboard(),
@@ -214,5 +214,4 @@ class VkBot:
             keyboard=init_state_keyboard().get_keyboard(),
             attachment=self.attachments['init_state']
         )
-
 
