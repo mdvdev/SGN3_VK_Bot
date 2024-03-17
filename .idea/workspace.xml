@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sgn3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sgn4.png" afterDir="false" />
+    <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="SHS3_clicked realisation">
+      <change afterPath="$PROJECT_DIR$/sgn1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sgn2.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VkBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/VkBot.py" afterDir="false" />
     </list>
@@ -76,10 +76,23 @@
       <updated>1710334419200</updated>
       <workItem from="1710512717869" duration="19670000" />
     </task>
+    <task id="LOCAL-00001" summary="SHS3_clicked realisation">
+      <option name="closed" value="true" />
+      <created>1710674258204</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710674258204</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="SHS3_clicked realisation" />
+    <option name="LAST_COMMIT_MESSAGE" value="SHS3_clicked realisation" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SHS_VK_Bot$VkBot.coverage" NAME="VkBot Coverage Results" MODIFIED="1710591489700" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

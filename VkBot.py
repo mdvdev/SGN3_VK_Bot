@@ -119,19 +119,34 @@ class VkBot:
         )
 
     def shs4_clicked_handler(self, event):
-        pass
+        image = "sgn4.png"
+        upload = VkUpload(self)
+        attachments = []
+        upload_image = upload.photo_messages(photos=image)[0]
+        message = shs_messages[4]
+        attachments.append('photo{}_{}'.format(upload_image['owner_id'], upload_image['id']))
+        self.vk.messages.send(
+            peer_id=event.object.peer_id,
+            random_id=get_random_id(),
+            message=message,
+            keyboard=get_keyboard_2(),
+            attachment=attachments
+        )
+
+    def deanery_clicked_handler(self, event):
+        self.send_message(self, " ", event)
 
 
 shs_messages = [
     {
         "text11": "Кафедра СГН1 занимается исключительно преподавателькой деятельностью. ",
         "text12": "Её преподавательский состав преподаёт дисциплину История России всем студентам Бауманки",
-        "photo": " "
+        "photo": "sgn1.png"
     },
     {
         "text21": "Кафедра занимается подготовкой кадров по направлению Социалогия. ",
         "text22": "Образовательной программой данной кафедры является Социалогия техники и инженерной деятельности. ",
-        "photo": " "
+        "photo": "sgn2.png"
     },
     {
         "text31": "Кафедра занимается подготовкой кадров по направлению Прикладная информатика. ",
