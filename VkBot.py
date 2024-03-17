@@ -196,19 +196,20 @@ class VkBot:
         keyboard.add_callback_button(
             label="Заведующий кафедрой",
             color=VkKeyboardColor.POSITIVE,
-            payload={"type": "open_link", "link": "http://fsgn.bmstu.ru/rem.htm"},
+            payload={"type": "open_link", "link": "http://sgn4.bmstu.ru/ivlev"},
         )
         keyboard.add_line()
         keyboard.add_callback_button(
             label="Научная работа",
             color=VkKeyboardColor.POSITIVE,
-            payload={"type": "open_link", "link": "http://fsgn.bmstu.ru/analytics/index.php?p=science"},
+            payload={"text": "Если вы собираетесь поступать на аспирантуру, найти научную работу здесь:\n",
+                     "type": "open_link", "link": "http://fsgn.bmstu.ru/analytics/index.php?p=science"},
         )
         keyboard.add_line()
         keyboard.add_callback_button(
             label="Учебная работа",
             color=VkKeyboardColor.POSITIVE,
-            payload={"type": "open_link", "link": "https://e-learning.bmstu.ru/sgn/course/index.php?categoryid=4"}
+            payload={"text": "СГН4 не ведёт подготовку кадров."}
         )
         keyboard.add_line()
         keyboard.add_callback_button(
