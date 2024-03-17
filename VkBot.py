@@ -35,6 +35,7 @@ MESSAGES = {
     Преподаватели ведут такие дисциплины, как «Логика» и «Философия».""",
 }
 
+
 class VkBotState(Enum):
     INIT_STATE = 0
     SHS1_CLICKED = 1
@@ -225,3 +226,5 @@ class VkBot:
             keyboard=init_state_keyboard().get_keyboard(),
             attachment=self.attachments['init_state']
         )
+
+
