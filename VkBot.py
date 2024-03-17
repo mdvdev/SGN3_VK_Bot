@@ -77,7 +77,7 @@ class VkBot:
             self.deanery_clicked_handler(event)
 
     def init_state_handler(self, event):
-        self.vk.messages.send(user_id=event.obj.message['from_id'], random_id=get_random_id(), peer_id=event.obj.message['from_id'], keyboard=self.get_keyboard(self), message=event.obj.message['text'])
+        self.vk.messages.send(user_id=event.obj.message['from_id'], random_id=get_random_id(), peer_id=event.obj.message['from_id'], keyboard=self.get_keyboard_1(), message=event.obj.message['text'])
         if event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'SHS1':
                 self.state = VkBotState.SHS1_CLICKED
