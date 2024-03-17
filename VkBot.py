@@ -5,10 +5,12 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api import VkUpload
 from enum import Enum
 
-DEANERY_MESSAGE = """❕Кабинеты деканата располагаются в УЛК на 7 этаже.\n
+MESSAGES = {
+    'init_state': """❕Кабинеты деканата располагаются в УЛК на 7 этаже.\n
     Декан: Ремарчук Валерий Николаевич (кабинет 703л)\n
     Зам. декана по молодёжной политике\n
-    и воспитательной деятельности: Гаврилова Юлия Викторовна"""
+    и воспитательной деятельности: Гаврилова Юлия Викторовна""",
+}
 
 
 class VkBotState(Enum):
@@ -83,7 +85,7 @@ class VkBot:
                 random_id=get_random_id(),
                 peer_id=event.obj.message['from_id'],
                 keyboard=init_state_keyboard().get_keyboard(),
-                message=event.obj.message['text'],
+                message='СГН3 рулит!',
                 attachment=self.attachments['init_state']
             )
         elif event.type == VkBotEventType.MESSAGE_EVENT:
@@ -126,7 +128,7 @@ class VkBot:
     def deanery_clicked_handler(self, event):
         last_id = self.vk.messages.edit(
             peer_id=event.obj.peer_id,
-            message=DEANERY_MESSAGE,
+            message=MESSAGES['init_state'],
             conversation_message_id=event.obj.conversation_message_id,
             keyboard=init_state_keyboard().get_keyboard(),
             attachment=self.attachments['init_state']
