@@ -10,14 +10,17 @@ MESSAGES = {
     Декан: Ремарчук Валерий Николаевич (кабинет 703л)\n
     Зам. декана по молодёжной политике\n
     и воспитательной деятельности: Гаврилова Юлия Викторовна""",
+
     'shs1_state': """Кафедра СГН1 занимается исключительно преподавателькой деятельностью.\n
     Её преподавательский состав преподаёт дисциплину «История России» всем студентам Бауманки""",
+
     'shs2_state': """Кафедра занимается подготовкой кадров по направлению «Социалогия.» 
     Образовательной программой данной кафедры является «Социалогия техники и инженерной деятельности».\n
     Выпускники кафедры востребованы в таких местах, как:\n",
     1. В органах государственной и муниципальной власти;\n",
     2. В экспертных структурах и в информационно-аналитических центрах;\n",
     3. В агентствах по найму и управлению персоналом;""",
+
     'shs3_state': """Кафедра занимается подготовкой кадров по направлению «Прикладная информатика».\n
     Образовательной программой кафедры является «Информационная аналитика и политические технологии».\n
     Здесь студентов учат не только информатике, программированию, но и аналитике данных.\n
@@ -31,7 +34,6 @@ MESSAGES = {
     Для студентов бакалавриата кафедра несёт исключительно преподавательский характер.\n
     Преподаватели ведут такие дисциплины, как «Логика» и «Философия».""",
 }
-
 
 class VkBotState(Enum):
     INIT_STATE = 0
@@ -71,10 +73,10 @@ class VkBot:
         self.longpoll = VkBotLongPoll(self.vk_session, group_id=group_id)
         self.attachments = {
             'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg'),
-            'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.png'),
-            'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.png'),
-            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.png'),
-            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.png'),
+            'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.jpg'),
+            'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.jpg'),
+            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.jpg'),
+            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.jpg'),
         }
 
     def start(self):
