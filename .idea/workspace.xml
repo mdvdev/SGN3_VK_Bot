@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/SHS_VK_Bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SHS_VK_Bot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sgn3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sgn4.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VkBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/VkBot.py" afterDir="false" />
     </list>
@@ -44,6 +44,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/User/Desktop/Art's/BMSTU/SHS_VK_Bot",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,6 +54,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Desktop\Art's\BMSTU\SHS_VK_Bot" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
