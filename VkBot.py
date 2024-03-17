@@ -12,7 +12,6 @@ class VkBotState(Enum):
     SHS2_CLICKED = 2
     SHS3_CLICKED = 3
     SHS4_CLICKED = 4
-    DEANERY_CLICKED = 5
 
 
 def get_keyboard_1():
@@ -26,7 +25,24 @@ def get_keyboard_1():
     keyboard_1.add_line()
     keyboard_1.add_callback_button(label='СГН4', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS4"})
     keyboard_1.add_line()
-    keyboard_1.add_callback_button(label='Деканат', color=VkKeyboardColor.POSITIVE, payload={"type": "DEANERY"})
+
+
+def send_message(self, message_text, event):
+    image = "sgn.jpg"
+    upload = VkUpload(self)
+    attachments = []
+    upload_image = upload.photo_messages(photos=image)[0]
+    attachments.append('photo{}_{}'.format(upload_image['owner_id'], upload_image['id']))
+    self.vk.messages.send(user_id=event.obj.from_id, random_id=get_random_id(), peer_id=event.obj.peer_id, message=message_text, attachment=attachments)
+
+
+def upload_photo(vk, photo):
+    upload = VkUpload(vk)
+    response = upload.photo_messages(photo)[0]
+    owner_id = response['owner_id']
+    photo_id = response['id']
+    access_key = response['access_key']
+    return owner_id, photo_id, access_key
 
 
 def get_keyboard_2():
@@ -71,10 +87,6 @@ class VkBot:
 
             self.shs4_clicked_handler(event)
 
-        elif self.state == VkBotState.DEANERY_CLICKED:
-
-            self.deanery_clicked_handler(event)
-
     def init_state_handler(self, event):
         self.vk.messages.send(user_id=event.obj.message['from_id'], random_id=get_random_id(), peer_id=event.obj.message['from_id'], keyboard=get_keyboard_1(), message=event.obj.message['text'])
         if event.type == VkBotEventType.MESSAGE_EVENT:
@@ -86,16 +98,6 @@ class VkBot:
                 self.state = VkBotState.SHS3_CLICKED
             elif event.object.payload.get('type') == 'SHS4':
                 self.state = VkBotState.SHS4_CLICKED
-            elif event.object.payload.get('type') == 'DEANERY':
-                self.state = VkBotState.DEANERY_CLICKED
-
-    def send_message(self, message_text, event):
-        image = "sgn.jpg"
-        upload = VkUpload(self)
-        attachments = []
-        upload_image = upload.photo_messages(photos=image)[0]
-        attachments.append('photo{}_{}'.format(upload_image['owner_id'], upload_image['id']))
-        self.vk.messages.send(user_id=event.obj.from_id, random_id=get_random_id(), peer_id=event.obj.peer_id, message=message_text, attachment=attachments)
 
     def shs1_clicked_handler(self, event):
         pass
@@ -108,7 +110,7 @@ class VkBot:
         upload = VkUpload(self)
         attachments = []
         upload_image = upload.photo_messages(photos=image)[0]
-        message = shs_messages[3]
+        message = shs_messages[2]
         attachments.append('photo{}_{}'.format(upload_image['owner_id'], upload_image['id']))
         self.vk.messages.send(
             peer_id=event.object.peer_id,
@@ -123,7 +125,7 @@ class VkBot:
         upload = VkUpload(self)
         attachments = []
         upload_image = upload.photo_messages(photos=image)[0]
-        message = shs_messages[4]
+        message = shs_messages[3]
         attachments.append('photo{}_{}'.format(upload_image['owner_id'], upload_image['id']))
         self.vk.messages.send(
             peer_id=event.object.peer_id,
@@ -132,9 +134,6 @@ class VkBot:
             keyboard=get_keyboard_2(),
             attachment=attachments
         )
-
-    def deanery_clicked_handler(self, event):
-        self.send_message(self, " ", event)
 
 
 shs_messages = [
@@ -161,4 +160,3 @@ shs_messages = [
         "photo": "sgn4.png"
     }
 ]
-
