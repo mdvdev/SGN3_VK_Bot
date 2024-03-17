@@ -71,19 +71,19 @@ def shs3_keyboard():
     keyboard.add_callback_button(
         label="Заведующий кафедрой",
         color=VkKeyboardColor.POSITIVE,
-        payload={"type": "open_link", "link": "http://fsgn.bmstu.ru/rem.htm"},
+        payload={"type": "head_of_division", "text": "Ремарчук Валерий Николаевич"},
     )
     keyboard.add_line()
     keyboard.add_callback_button(
         label="Научная работа",
         color=VkKeyboardColor.POSITIVE,
-        payload={"type": "open_link", "link": "http://fsgn.bmstu.ru/analytics/index.php?p=science"},
+        payload={"type": "science_work", "text": "Тут будет научная работа"},
     )
     keyboard.add_line()
     keyboard.add_callback_button(
         label="Учебная работа",
         color=VkKeyboardColor.POSITIVE,
-        payload={"type": "open_link", "link": "https://e-learning.bmstu.ru/sgn/course/index.php?categoryid=4"}
+        payload={"type": "studies_work", "text": "Тут будет учебная работа"}
     )
     keyboard.add_line()
     keyboard.add_callback_button(
@@ -99,7 +99,7 @@ def shs4_keyboard():
     keyboard.add_callback_button(
         label="Заведующий кафедрой",
         color=VkKeyboardColor.POSITIVE,
-        payload={"type": "open_link", "link": "http://sgn4.bmstu.ru/ivlev"},
+        payload={"type": "head_of_division", "link": "Ивлев Виталий Юрьевич"},
     )
     keyboard.add_line()
     keyboard.add_callback_button(
