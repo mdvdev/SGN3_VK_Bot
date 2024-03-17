@@ -152,7 +152,7 @@ class VkBot:
             random_id=get_random_id(),
             attachment=self.attachments['shs3_state'],
             message=MESSAGES['shs3_state'],
-            keyboard=self.shs3_keyboard.get_keyboard()
+            keyboard=self.shs3_keyboard().get_keyboard()
         )
 
     def shs3_keyboard(self):
@@ -188,7 +188,7 @@ class VkBot:
             random_id=get_random_id(),
             attachment=self.attachments['shs4_state'],
             message=MESSAGES['shs4_state'],
-            keyboard=self.shs3_keyboard.get_keyboard()
+            keyboard=self.shs4_keyboard().get_keyboard()
         )
 
     def shs4_keyboard(self):
