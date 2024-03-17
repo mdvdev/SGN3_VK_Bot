@@ -225,3 +225,4 @@ class VkBot:
             keyboard=init_state_keyboard().get_keyboard(),
             attachment=self.attachments['init_state']
         )
+
