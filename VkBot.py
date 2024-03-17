@@ -35,6 +35,7 @@ MESSAGES = {
     Преподаватели ведут такие дисциплины, как «Логика» и «Философия».""",
 }
 
+
 class VkBotState(Enum):
     INIT_STATE = 0
     SHS1_CLICKED = 1
@@ -73,10 +74,10 @@ class VkBot:
         self.longpoll = VkBotLongPoll(self.vk_session, group_id=group_id)
         self.attachments = {
             'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg'),
-            'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.jpg'),
-            'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.jpg'),
-            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.jpg'),
-            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.jpg'),
+            'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.png'),
+            'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.png'),
+            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.png'),
+            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.png'),
         }
 
     def start(self):
@@ -225,4 +226,3 @@ class VkBot:
             keyboard=init_state_keyboard().get_keyboard(),
             attachment=self.attachments['init_state']
         )
-
