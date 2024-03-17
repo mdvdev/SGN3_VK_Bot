@@ -12,7 +12,6 @@ class VkBotState(Enum):
     SHS2_CLICKED = 2
     SHS3_CLICKED = 3
     SHS4_CLICKED = 4
-    DEANERY_CLICKED = 5
 
 
 def get_keyboard_1():
@@ -86,8 +85,6 @@ class VkBot:
                 self.state = VkBotState.SHS3_CLICKED
             elif event.object.payload.get('type') == 'SHS4':
                 self.state = VkBotState.SHS4_CLICKED
-            elif event.object.payload.get('type') == 'DEANERY':
-                self.state = VkBotState.DEANERY_CLICKED
 
     def shs1_clicked_handler(self, event):
         pass
@@ -102,7 +99,7 @@ class VkBot:
         pass
 
     def deanery_clicked_handler(self, event):
-        last_id = self.vk.messages.edit(peer_id=event.obj.peer_id, message='❕Кабинеты деканата располагаются в УЛК на 7 этаже.', conversation_message_id=event.obj.conversation_message_id)
+        last_id = self.vk.messages.edit(peer_id=event.obj.peer_id, message='❕Кабинеты деканата располагаются в УЛК на 7 этаже.\n Декан: Ремарчук Валерий Николаевич (кабинет 703л)\nЗам. декана по молодёжной политике\n и воспитательной деятельности: Гаврилова Юлия Викторовна', conversation_message_id=event.obj.conversation_message_id)
 
     def add_image(self):
         image = "C:/sgn.jpg"
