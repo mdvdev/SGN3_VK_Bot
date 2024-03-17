@@ -25,7 +25,8 @@ def upload_photo(vk_session, photo):
     owner_id = response['owner_id']
     photo_id = response['id']
     access_key = response['access_key']
-    return owner_id, photo_id, access_key
+    attachment = f'photo{owner_id}_{photo_id}_{access_key}'
+    return attachment
 
 
 def init_state_keyboard():
@@ -77,15 +78,13 @@ class VkBot:
 
     def init_state_handler(self, event):
         if event.type == VkBotEventType.MESSAGE_NEW:
-            owner_id, photo_id, access_key = self.attachments['init_state']
-            attachment = f'photo{owner_id}_{photo_id}_{access_key}'
             self.vk.messages.send(
                 user_id=event.obj.message['from_id'],
                 random_id=get_random_id(),
                 peer_id=event.obj.message['from_id'],
                 keyboard=init_state_keyboard().get_keyboard(),
                 message=event.obj.message['text'],
-                attachment=attachment
+                attachment=self.attachments['init_state']
             )
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'SHS1':
