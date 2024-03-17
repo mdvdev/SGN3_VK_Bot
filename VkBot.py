@@ -70,9 +70,6 @@ class VkBot:
 
             self.shs4_clicked_handler(event)
 
-        elif self.state == VkBotState.DEANERY_CLICKED:
-
-            self.deanery_clicked_handler(event)
 
     def init_state_handler(self, event):
         self.vk.messages.send(user_id=event.obj.message['from_id'], random_id=get_random_id(), peer_id=event.obj.message['from_id'], keyboard=self.get_keyboard_1(), message=event.obj.message['text'])
@@ -85,6 +82,8 @@ class VkBot:
                 self.state = VkBotState.SHS3_CLICKED
             elif event.object.payload.get('type') == 'SHS4':
                 self.state = VkBotState.SHS4_CLICKED
+            elif event.object.payload.get('type') == 'DEANERY':
+                deanery_clicked_handler(self, event)
 
     def shs1_clicked_handler(self, event):
         pass
