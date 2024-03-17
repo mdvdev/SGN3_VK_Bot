@@ -5,6 +5,11 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api import VkUpload
 from enum import Enum
 
+DEANERY_MESSAGE = """❕Кабинеты деканата располагаются в УЛК на 7 этаже.\n
+    Декан: Ремарчук Валерий Николаевич (кабинет 703л)\n
+    Зам. декана по молодёжной политике\n
+    и воспитательной деятельности: Гаврилова Юлия Викторовна"""
+
 
 class VkBotState(Enum):
     INIT_STATE = 0
@@ -14,45 +19,26 @@ class VkBotState(Enum):
     SHS4_CLICKED = 4
 
 
-def get_keyboard_1():
-    settings = dict(one_time=False, inline=True)
-    keyboard_1 = VkKeyboard(**settings)
-    keyboard_1.add_callback_button(label='СГН1', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS1"})
-    keyboard_1.add_line()
-    keyboard_1.add_callback_button(label='СГН2', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS2"})
-    keyboard_1.add_line()
-    keyboard_1.add_callback_button(label='СГН3', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS3"})
-    keyboard_1.add_line()
-    keyboard_1.add_callback_button(label='СГН4', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS4"})
-    keyboard_1.add_line()
-
-
-def send_message(self, message_text, event):
-    image = "sgn.jpg"
-    upload = VkUpload(self)
-    attachments = []
-    upload_image = upload.photo_messages(photos=image)[0]
-    attachments.append('photo{}_{}'.format(upload_image['owner_id'], upload_image['id']))
-    self.vk.messages.send(user_id=event.obj.from_id, random_id=get_random_id(), peer_id=event.obj.peer_id, message=message_text, attachment=attachments)
-
-
-def upload_photo(vk, photo):
-    upload = VkUpload(vk)
+def upload_photo(vk_session, photo):
+    upload = VkUpload(vk_session)
     response = upload.photo_messages(photo)[0]
     owner_id = response['owner_id']
     photo_id = response['id']
     access_key = response['access_key']
-    return owner_id, photo_id, access_key
+    attachment = f'photo{owner_id}_{photo_id}_{access_key}'
+    return attachment
 
 
-def get_keyboard_2():
-    settings = dict(one_time=False, inline=True)
-    keyboard_2 = VkKeyboard(**settings)
-    keyboard_2.add_callback_button(label='Заведующий', color=VkKeyboardColor.POSITIVE, payload={"type": "HEAD_OF_DEPARTMENT"})
-    keyboard_2.add_line()
-    keyboard_2.add_callback_button(label='Научная работа', color=VkKeyboardColor.PRIMARY, payload={"type": "SCIENTIFIC_WORK"})
-    keyboard_2.add_line()
-    keyboard_2.add_callback_button('Назад', color=VkKeyboardColor.NEGATIVE, payload={"type": "BACK"})
+def init_state_keyboard():
+    keyboard = VkKeyboard(one_time=False, inline=True)
+    keyboard.add_callback_button(label='СГН1', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS1"})
+    keyboard.add_callback_button(label='СГН2', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS2"})
+    keyboard.add_line()
+    keyboard.add_callback_button(label='СГН3', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS3"})
+    keyboard.add_callback_button(label='СГН4', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS4"})
+    keyboard.add_line()
+    keyboard.add_callback_button(label='Деканат', color=VkKeyboardColor.POSITIVE, payload={"type": "DEANERY"})
+    return keyboard
 
 
 class VkBot:
@@ -61,6 +47,9 @@ class VkBot:
         self.vk_session = vk_api.VkApi(token=group_token)
         self.vk = self.vk_session.get_api()
         self.longpoll = VkBotLongPoll(self.vk_session, group_id=group_id)
+        self.attachments = {
+            'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg')
+        }
 
     def start(self):
         for event in self.longpoll.listen():
@@ -88,16 +77,39 @@ class VkBot:
             self.shs4_clicked_handler(event)
 
     def init_state_handler(self, event):
-        self.vk.messages.send(user_id=event.obj.message['from_id'], random_id=get_random_id(), peer_id=event.obj.message['from_id'], keyboard=get_keyboard_1(), message=event.obj.message['text'])
-        if event.type == VkBotEventType.MESSAGE_EVENT:
+        if event.type == VkBotEventType.MESSAGE_NEW:
+            self.vk.messages.send(
+                user_id=event.obj.message['from_id'],
+                random_id=get_random_id(),
+                peer_id=event.obj.message['from_id'],
+                keyboard=init_state_keyboard().get_keyboard(),
+                message=event.obj.message['text'],
+                attachment=self.attachments['init_state']
+            )
+        elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'SHS1':
+
                 self.state = VkBotState.SHS1_CLICKED
+                self.shs1_clicked_handler(event)
+
             elif event.object.payload.get('type') == 'SHS2':
+
                 self.state = VkBotState.SHS2_CLICKED
+                self.shs2_clicked_handler(event)
+
             elif event.object.payload.get('type') == 'SHS3':
+
                 self.state = VkBotState.SHS3_CLICKED
+                self.shs3_clicked_handler(event)
+
             elif event.object.payload.get('type') == 'SHS4':
+
                 self.state = VkBotState.SHS4_CLICKED
+                self.shs4_clicked_handler(event)
+
+            elif event.object.payload.get('type') == 'DEANERY':
+
+                self.deanery_clicked_handler(event)
 
     def shs1_clicked_handler(self, event):
         pass
@@ -106,57 +118,16 @@ class VkBot:
         pass
 
     def shs3_clicked_handler(self, event):
-        image = "sgn3.png"
-        upload = VkUpload(self)
-        attachments = []
-        upload_image = upload.photo_messages(photos=image)[0]
-        message = shs_messages[2]
-        attachments.append('photo{}_{}'.format(upload_image['owner_id'], upload_image['id']))
-        self.vk.messages.send(
-            peer_id=event.object.peer_id,
-            random_id=get_random_id(),
-            message=message,
-            keyboard=get_keyboard_2(),
-            attachment=attachments
-        )
+        pass
 
     def shs4_clicked_handler(self, event):
-        image = "sgn4.png"
-        upload = VkUpload(self)
-        attachments = []
-        upload_image = upload.photo_messages(photos=image)[0]
-        message = shs_messages[3]
-        attachments.append('photo{}_{}'.format(upload_image['owner_id'], upload_image['id']))
-        self.vk.messages.send(
-            peer_id=event.object.peer_id,
-            random_id=get_random_id(),
-            message=message,
-            keyboard=get_keyboard_2(),
-            attachment=attachments
+        pass
+
+    def deanery_clicked_handler(self, event):
+        last_id = self.vk.messages.edit(
+            peer_id=event.obj.peer_id,
+            message=DEANERY_MESSAGE,
+            conversation_message_id=event.obj.conversation_message_id,
+            keyboard=init_state_keyboard().get_keyboard(),
+            attachment=self.attachments['init_state']
         )
-
-
-shs_messages = [
-    {
-        "text11": "Кафедра СГН1 занимается исключительно преподавателькой деятельностью. ",
-        "text12": "Её преподавательский состав преподаёт дисциплину История России всем студентам Бауманки",
-        "photo": "sgn1.png"
-    },
-    {
-        "text21": "Кафедра занимается подготовкой кадров по направлению Социалогия. ",
-        "text22": "Образовательной программой данной кафедры является Социалогия техники и инженерной деятельности. ",
-        "photo": "sgn2.png"
-    },
-    {
-        "text31": "Кафедра занимается подготовкой кадров по направлению Прикладная информатика. ",
-        "text32": "Образовательной программой кафедры является Информационная аналитика и политические технологии. ",
-        "text33": "Здесь студентов учат не только информатике, программированию, но и ",
-        "photo": "sgn3.png"
-    },
-    {
-        "text41": "Кафедра СГН4 занимается преподавателькой деятельностью. ",
-        "text42": "Преподаватели ведут такие дисциплины, как Логика и Философия, которые изучают студенты бакалавры. ",
-        "text43": "Учит аспирантов дисциплинам социальная и политическая философия, философия науки и техники.",
-        "photo": "sgn4.png"
-    }
-]
