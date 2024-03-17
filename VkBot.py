@@ -151,8 +151,8 @@ class VkBot:
             peer_id=event.object.peer_id,
             message=MESSAGES['shs3_state'],
             conversation_message_id=event.obj.conversation_message_id,
-            attachment=self.attachments['shs3_state'],
-            keyboard=self.shs3_keyboard().get_keyboard()
+            keyboard=self.shs3_keyboard().get_keyboard(),
+            attachment=self.attachments['shs3_state']
         )
 
     def shs3_keyboard(self):
@@ -187,8 +187,8 @@ class VkBot:
             peer_id=event.object.peer_id,
             message=MESSAGES['shs4_state'],
             conversation_message_id=event.obj.conversation_message_id,
-            attachment=self.attachments['shs4_state'],
-            keyboard=self.shs4_keyboard().get_keyboard()
+            keyboard=self.shs4_keyboard().get_keyboard(),
+            attachment=self.attachments['shs4_state']
         )
 
     def shs4_keyboard(self):
