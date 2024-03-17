@@ -112,7 +112,7 @@ class VkBot:
                 random_id=get_random_id(),
                 peer_id=event.obj.message['from_id'],
                 keyboard=init_state_keyboard().get_keyboard(),
-                message=event.obj.message['text'],
+                message='СГН3 рулит!',
                 attachment=self.attachments['init_state']
             )
         elif event.type == VkBotEventType.MESSAGE_EVENT:
