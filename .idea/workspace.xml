@@ -135,13 +135,13 @@
       <option name="project" value="LOCAL" />
       <updated>1710706618719</updated>
     </task>
-    <task id="LOCAL-00005" summary="SHS3_clicked realisation">
+    <task id="LOCAL-00005" summary="SHS3 &amp; SHS4 Realizations">
       <option name="closed" value="true" />
-      <created>1710695861166</created>
+      <created>1710707282395</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1710695861166</updated>
+      <updated>1710707282395</updated>
     </task>
     <task id="LOCAL-00006" summary="SHS3 &amp; SHS4 Realizations">
       <option name="closed" value="true" />
@@ -199,7 +199,7 @@
       <option name="project" value="LOCAL" />
       <updated>1710705356487</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
