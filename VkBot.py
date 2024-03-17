@@ -66,6 +66,50 @@ def init_state_keyboard():
     return keyboard
 
 
+def shs3_keyboard():
+    keyboard = VkKeyboard(one_time=False, inline=True)
+    keyboard.add_callback_button(
+        label="Заведующий кафедрой",
+        color=VkKeyboardColor.POSITIVE,
+        payload={"type": "open_link", "link": "http://fsgn.bmstu.ru/rem.htm"},
+    )
+    keyboard.add_line()
+    keyboard.add_callback_button(
+        label="Научная работа",
+        color=VkKeyboardColor.POSITIVE,
+        payload={"type": "open_link", "link": "http://fsgn.bmstu.ru/analytics/index.php?p=science"},
+    )
+    keyboard.add_line()
+    keyboard.add_callback_button(
+        label="Учебная работа",
+        color=VkKeyboardColor.POSITIVE,
+        payload={"type": "open_link", "link": "https://e-learning.bmstu.ru/sgn/course/index.php?categoryid=4"}
+    )
+    keyboard.add_line()
+    keyboard.add_callback_button(
+        label="Назад",
+        color=VkKeyboardColor.NEGATIVE,
+        payload={"type": "back"}
+    )
+    return keyboard
+
+
+def shs4_keyboard():
+    keyboard = VkKeyboard(one_time=False, inline=True)
+    keyboard.add_callback_button(
+        label="Заведующий кафедрой",
+        color=VkKeyboardColor.POSITIVE,
+        payload={"type": "open_link", "link": "http://sgn4.bmstu.ru/ivlev"},
+    )
+    keyboard.add_line()
+    keyboard.add_callback_button(
+        label="Назад",
+        color=VkKeyboardColor.NEGATIVE,
+        payload={"type": "back"}
+    )
+    return keyboard
+
+
 class VkBot:
     def __init__(self, group_id, group_token):
         self.state = VkBotState.INIT_STATE
@@ -151,60 +195,18 @@ class VkBot:
             peer_id=event.obj.peer_id,
             message=MESSAGES['shs3_state'],
             conversation_message_id=event.obj.conversation_message_id,
-            keyboard=self.shs3_keyboard().get_keyboard(),
+            keyboard=shs3_keyboard().get_keyboard(),
             attachment=self.attachments['shs3_state']
         )
-
-    def shs3_keyboard(self):
-        keyboard = VkKeyboard(one_time=False, inline=True)
-        keyboard.add_callback_button(
-            label="Заведующий кафедрой",
-            color=VkKeyboardColor.POSITIVE,
-            payload={"type": "open_link", "link": "http://fsgn.bmstu.ru/rem.htm"},
-        )
-        keyboard.add_line()
-        keyboard.add_callback_button(
-            label="Научная работа",
-            color=VkKeyboardColor.POSITIVE,
-            payload={"type": "open_link", "link": "http://fsgn.bmstu.ru/analytics/index.php?p=science"},
-        )
-        keyboard.add_line()
-        keyboard.add_callback_button(
-            label="Учебная работа",
-            color=VkKeyboardColor.POSITIVE,
-            payload={"type": "open_link", "link": "https://e-learning.bmstu.ru/sgn/course/index.php?categoryid=4"}
-        )
-        keyboard.add_line()
-        keyboard.add_callback_button(
-            label="Назад",
-            color=VkKeyboardColor.NEGATIVE,
-            payload={"type": "back"}
-        )
-        return keyboard
 
     def shs4_clicked_handler(self, event):
         last_id = self.vk.messages.edit(
             peer_id=event.obj.peer_id,
             message=MESSAGES['shs4_state'],
             conversation_message_id=event.obj.conversation_message_id,
-            keyboard=self.shs4_keyboard().get_keyboard(),
+            keyboard=shs4_keyboard().get_keyboard(),
             attachment=self.attachments['shs4_state']
         )
-
-    def shs4_keyboard(self):
-        keyboard = VkKeyboard(one_time=False, inline=True)
-        keyboard.add_callback_button(
-            label="Заведующий кафедрой",
-            color=VkKeyboardColor.POSITIVE,
-            payload={"type": "open_link", "link": "http://sgn4.bmstu.ru/ivlev"},
-        )
-        keyboard.add_line()
-        keyboard.add_callback_button(
-            label="Назад",
-            color=VkKeyboardColor.NEGATIVE,
-            payload={"type": "back"}
-        )
-        return keyboard
 
     def deanery_clicked_handler(self, event):
         last_id = self.vk.messages.edit(
