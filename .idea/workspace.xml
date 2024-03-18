@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="Changed message structure">
-      <change afterPath="$PROJECT_DIR$/VkBotState.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VkBotStateHandler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/SHS_VK_Bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SHS_VK_Bot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="Removed code lines">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VkBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/VkBot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VkBotStateHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/VkBotStateHandler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,22 +86,29 @@
       <option name="project" value="LOCAL" />
       <updated>1710695629323</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added VkBotStateHandler, VkBotState moved to standalone file, changed message text">
+      <option name="closed" value="true" />
+      <created>1710774612055</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1710774612055</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Removed code lines">
+      <option name="closed" value="true" />
+      <created>1710774840825</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1710774840825</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Completed code refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed code refactoring" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/VkBot.py</url>
-          <line>27</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Added VkBotStateHandler, VkBotState moved to standalone file, changed message text" />
+    <MESSAGE value="Removed code lines" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed code lines" />
   </component>
 </project>
