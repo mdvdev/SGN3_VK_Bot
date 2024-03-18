@@ -14,10 +14,10 @@ class VkBot:
         self.state_handler = VkBotStateHandler(self)
         self.attachments = {
             'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg'),
-            'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.png'),
-            'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.png'),
-            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.png'),
-            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.png')
+            'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.JPG'),
+            'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.JPG'),
+            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.JPG'),
+            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.JPG')
         }
 
     def get_state(self):
