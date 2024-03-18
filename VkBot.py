@@ -16,6 +16,8 @@ class VkBot:
             'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg'),
             'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.png'),
             'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.png'),
+            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.png'),
+            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.png')
         }
 
     def get_state(self):
