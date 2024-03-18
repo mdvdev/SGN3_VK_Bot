@@ -78,7 +78,7 @@ class VkBotStateHandler:
             keyboard=shs1_keyboard().get_keyboard()
         )
 
-    def shs2_clicked_handler(self, event):
+    def shs2_state_handler(self, event):
         if event.type == VkBotEventType.MESSAGE_NEW:
             self.vk_bot.get_vk().messages.send(
                 user_id=event.obj.message['from_id'],

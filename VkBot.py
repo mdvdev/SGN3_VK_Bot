@@ -45,7 +45,7 @@ class VkBot:
 
         elif self.state == VkBotState.SHS2_STATE:
 
-            self.state_handler.shs2_clicked_handler(event)
+            self.state_handler.shs2_state_handler(event)
 
         elif self.state == VkBotState.SHS3_STATE:
 
