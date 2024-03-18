@@ -1,0 +1,286 @@
+Index: VkBot.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import vk_api\r\nfrom vk_api.utils import get_random_id\r\nfrom vk_api.bot_longpoll import VkBotEventType, VkBotLongPoll\r\nfrom vk_api.keyboard import VkKeyboard, VkKeyboardColor\r\nfrom vk_api import VkUpload\r\nfrom enum import Enum\r\n\r\nMESSAGES = {\r\n    'init_state': \"\"\"❕Кабинеты деканата располагаются в УЛК на 7 этаже.\\n\r\n    Декан: Ремарчук Валерий Николаевич (кабинет 703л)\\n\r\n    Зам. декана по молодёжной политике\\n\r\n    и воспитательной деятельности: Гаврилова Юлия Викторовна\"\"\",\r\n\r\n    'shs1_state': \"\"\"Кафедра СГН1 занимается исключительно преподавателькой деятельностью.\\n\r\n    Её преподавательский состав преподаёт дисциплину «История России» всем студентам Бауманки\"\"\",\r\n\r\n    'shs2_state': \"\"\"Кафедра занимается подготовкой кадров по направлению «Социалогия.»\r\n    Образовательной программой данной кафедры является «Социалогия техники и инженерной деятельности».\r\n    Выпускники кафедры востребованы в таких местах, как:\\n\r\n    1. В органах государственной и муниципальной власти;\\n\r\n    2. В экспертных структурах и в информационно-аналитических центрах;\\n\r\n    3. В агентствах по найму и управлению персоналом;\"\"\",\r\n\r\n    'shs3_state': \"\"\"Кафедра занимается подготовкой кадров по направлению «Прикладная информатика».\r\n    Образовательной программой кафедры является «Информационная аналитика и политические технологии».\r\n    Здесь студентов учат не только информатике, программированию, но и аналитике данных.\r\n    Выпускники кафедры могут устроиться работать аналитиками данных в такие компании, как:\r\n    Яндекс, ВК, Сбер, Аналитический Центр при Правительстве РФ, ВТБ, РЖД, и прочие. \"\"\",\r\n\r\n    'shs4_state': \"\"\"Кафедра СГН4 в основном нацелена на аспирантов Бауманки.\\n\r\n    Она занимается подготовкой аспирантов по дисциплинам:\\n,\r\n    1. «Социальная и политическая философия»\\n\r\n    2. «Философия науки и техники».\\n\r\n    Для студентов бакалавриата кафедра несёт исключительно преподавательский характер.\\n\r\n    Преподаватели ведут такие дисциплины, как «Логика» и «Философия».\"\"\",\r\n}\r\n\r\n\r\nclass VkBotState(Enum):\r\n    INIT_STATE = 0\r\n    SHS1_CLICKED = 1\r\n    SHS2_CLICKED = 2\r\n    SHS3_CLICKED = 3\r\n    SHS4_CLICKED = 4\r\n\r\n\r\ndef upload_photo(vk_session, photo):\r\n    upload = VkUpload(vk_session)\r\n    response = upload.photo_messages(photo)[0]\r\n    owner_id = response['owner_id']\r\n    photo_id = response['id']\r\n    access_key = response['access_key']\r\n    attachment = f'photo{owner_id}_{photo_id}_{access_key}'\r\n    return attachment\r\n\r\n\r\ndef init_state_keyboard():\r\n    keyboard = VkKeyboard(one_time=False, inline=True)\r\n    keyboard.add_callback_button(label='СГН1', color=VkKeyboardColor.PRIMARY, payload={\"type\": \"SHS1\"})\r\n    keyboard.add_callback_button(label='СГН2', color=VkKeyboardColor.PRIMARY, payload={\"type\": \"SHS2\"})\r\n    keyboard.add_line()\r\n    keyboard.add_callback_button(label='СГН3', color=VkKeyboardColor.PRIMARY, payload={\"type\": \"SHS3\"})\r\n    keyboard.add_callback_button(label='СГН4', color=VkKeyboardColor.PRIMARY, payload={\"type\": \"SHS4\"})\r\n    keyboard.add_line()\r\n    keyboard.add_callback_button(label='Деканат', color=VkKeyboardColor.POSITIVE, payload={\"type\": \"DEANERY\"})\r\n    return keyboard\r\n\r\n\r\ndef shs3_keyboard():\r\n    keyboard = VkKeyboard(one_time=False, inline=True)\r\n    keyboard.add_callback_button(\r\n        label=\"Заведующий кафедрой\",\r\n        color=VkKeyboardColor.POSITIVE,\r\n        payload={\"type\": \"head_of_division\", \"text\": \"Ремарчук Валерий Николаевич\"},\r\n    )\r\n    keyboard.add_line()\r\n    keyboard.add_callback_button(\r\n        label=\"Научная работа\",\r\n        color=VkKeyboardColor.POSITIVE,\r\n        payload={\"type\": \"science_work\", \"text\": \"Тут будет научная работа\"},\r\n    )\r\n    keyboard.add_line()\r\n    keyboard.add_callback_button(\r\n        label=\"Учебная работа\",\r\n        color=VkKeyboardColor.POSITIVE,\r\n        payload={\"type\": \"studies_work\", \"text\": \"Тут будет учебная работа\"}\r\n    )\r\n    keyboard.add_line()\r\n    keyboard.add_callback_button(\r\n        label=\"Назад\",\r\n        color=VkKeyboardColor.NEGATIVE,\r\n        payload={\"type\": \"back\"}\r\n    )\r\n    return keyboard\r\n\r\n\r\ndef shs4_keyboard():\r\n    keyboard = VkKeyboard(one_time=False, inline=True)\r\n    keyboard.add_callback_button(\r\n        label=\"Заведующий кафедрой\",\r\n        color=VkKeyboardColor.POSITIVE,\r\n        payload={\"type\": \"head_of_division\", \"link\": \"Ивлев Виталий Юрьевич\"},\r\n    )\r\n    keyboard.add_line()\r\n    keyboard.add_callback_button(\r\n        label=\"Назад\",\r\n        color=VkKeyboardColor.NEGATIVE,\r\n        payload={\"type\": \"back\"}\r\n    )\r\n    return keyboard\r\n\r\n\r\nclass VkBot:\r\n    def __init__(self, group_id, group_token):\r\n        self.state = VkBotState.INIT_STATE\r\n        self.vk_session = vk_api.VkApi(token=group_token)\r\n        self.vk = self.vk_session.get_api()\r\n        self.longpoll = VkBotLongPoll(self.vk_session, group_id=group_id)\r\n        self.attachments = {\r\n            'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg'),\r\n            'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.png'),\r\n            'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.png'),\r\n            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.png'),\r\n            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.png'),\r\n        }\r\n\r\n    def start(self):\r\n        for event in self.longpoll.listen():\r\n            self.step(event)\r\n\r\n    def step(self, event):\r\n        if self.state == VkBotState.INIT_STATE:\r\n\r\n            self.init_state_handler(event)\r\n\r\n        elif self.state == VkBotState.SHS1_CLICKED:\r\n\r\n            self.shs1_clicked_handler(event)\r\n\r\n        elif self.state == VkBotState.SHS2_CLICKED:\r\n\r\n            self.shs2_clicked_handler(event)\r\n\r\n        elif self.state == VkBotState.SHS3_CLICKED:\r\n\r\n            self.shs3_clicked_handler(event)\r\n\r\n        elif self.state == VkBotState.SHS4_CLICKED:\r\n\r\n            self.shs4_clicked_handler(event)\r\n\r\n    def init_state_handler(self, event):\r\n        if event.type == VkBotEventType.MESSAGE_NEW:\r\n            self.vk.messages.send(\r\n                user_id=event.obj.message['from_id'],\r\n                random_id=get_random_id(),\r\n                peer_id=event.obj.message['from_id'],\r\n                keyboard=init_state_keyboard().get_keyboard(),\r\n                message='СГН3 рулит!',\r\n                attachment=self.attachments['init_state']\r\n            )\r\n        elif event.type == VkBotEventType.MESSAGE_EVENT:\r\n            if event.object.payload.get('type') == 'SHS1':\r\n\r\n                self.state = VkBotState.SHS1_CLICKED\r\n                self.shs1_clicked_handler(event)\r\n\r\n            elif event.object.payload.get('type') == 'SHS2':\r\n\r\n                self.state = VkBotState.SHS2_CLICKED\r\n                self.shs2_clicked_handler(event)\r\n\r\n            elif event.object.payload.get('type') == 'SHS3':\r\n\r\n                self.state = VkBotState.SHS3_CLICKED\r\n                self.shs3_clicked_handler(event)\r\n\r\n            elif event.object.payload.get('type') == 'SHS4':\r\n\r\n                self.state = VkBotState.SHS4_CLICKED\r\n                self.shs4_clicked_handler(event)\r\n\r\n            elif event.object.payload.get('type') == 'DEANERY':\r\n\r\n                self.deanery_clicked_handler(event)\r\n\r\n    def shs1_clicked_handler(self, event):\r\n        pass\r\n\r\n    def shs2_clicked_handler(self, event):\r\n        pass\r\n\r\n    def shs3_clicked_handler(self, event):\r\n        last_id = self.vk.messages.edit(\r\n            peer_id=event.obj.peer_id,\r\n            message=MESSAGES['shs3_state'],\r\n            conversation_message_id=event.obj.conversation_message_id,\r\n            keyboard=shs3_keyboard().get_keyboard(),\r\n            attachment=self.attachments['shs3_state']\r\n        )\r\n\r\n    def shs4_clicked_handler(self, event):\r\n        last_id = self.vk.messages.edit(\r\n            peer_id=event.obj.peer_id,\r\n            message=MESSAGES['shs4_state'],\r\n            conversation_message_id=event.obj.conversation_message_id,\r\n            keyboard=shs4_keyboard().get_keyboard(),\r\n            attachment=self.attachments['shs4_state']\r\n        )\r\n\r\n    def deanery_clicked_handler(self, event):\r\n        last_id = self.vk.messages.edit(\r\n            peer_id=event.obj.peer_id,\r\n            message=MESSAGES['init_state'],\r\n            conversation_message_id=event.obj.conversation_message_id,\r\n            keyboard=init_state_keyboard().get_keyboard(),\r\n            attachment=self.attachments['init_state']\r\n        )\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/VkBot.py b/VkBot.py
+--- a/VkBot.py	(revision 313517768432771b9b9211b57412129288dde3af)
++++ b/VkBot.py	(date 1710763203617)
+@@ -7,32 +7,175 @@
+ 
+ MESSAGES = {
+     'init_state': """❕Кабинеты деканата располагаются в УЛК на 7 этаже.\n
+-    Декан: Ремарчук Валерий Николаевич (кабинет 703л)\n
+-    Зам. декана по молодёжной политике\n
+-    и воспитательной деятельности: Гаврилова Юлия Викторовна""",
++Декан: Ремарчук Валерий Николаевич (кабинет 703л)\n
++Зам. декана по молодёжной политике\n
++и воспитательной деятельности: Гаврилова Юлия Викторовна""",
+ 
+     'shs1_state': """Кафедра СГН1 занимается исключительно преподавателькой деятельностью.\n
+-    Её преподавательский состав преподаёт дисциплину «История России» всем студентам Бауманки""",
++Её преподавательский состав преподаёт дисциплину «История России» всем студентам Бауманки\n
++Кафедра основана в 1959 г.\n
++В процессе преподавания курса «История России» особое внимание уделяется вопросам истории науки и техники, инженерно
++го дела, истории МГТУ.
++Активно используются мультимедийные, интерактивные и информационные технологии. 
++Организуются посещения музеев и исторических выставок, в т.ч. музея истории МГТУ.""",
+ 
+-    'shs2_state': """Кафедра занимается подготовкой кадров по направлению «Социалогия.»
+-    Образовательной программой данной кафедры является «Социалогия техники и инженерной деятельности».
+-    Выпускники кафедры востребованы в таких местах, как:\n
+-    1. В органах государственной и муниципальной власти;\n
+-    2. В экспертных структурах и в информационно-аналитических центрах;\n
+-    3. В агентствах по найму и управлению персоналом;""",
++    'shs2_state': """Кафедра занимается подготовкой кадров по направлению «Социалогия.» 
++Образовательной программой данной кафедры является «Социалогия техники и инженерной деятельности».\n
++Выпускники кафедры востребованы в таких местах, как:\n",
++1. В органах государственной и муниципальной власти;\n",
++2. В экспертных структурах и в информационно-аналитических центрах;\n",
++3. В агентствах по найму и управлению персоналом;""",
+ 
++    'shs1_head_of_dep': """Заведующий кафедры:  доктор исторических наук, профессор Виталий Юрьевич Захаров\n
++тел. 499-263-68-00  e-mail: vu.zakharov@bmstu.ru\n
++Заместитель заведующего по учебно-методической работе Даниил Викторович Лобач,\n
++тел. 499-263-65-42\n
++Заместитель заведующего по научной работе Татьяна Романовна Суздалева,\n
++тел. 499-263-65-42\n
++Организационной работой занимается специалист по учебно-методической работе Ольга Александровна Мишина\n
++Тел.: 499-263-65-42, e-mail: mishinaoa@bmstu.ru""",
++    'shs1_scientific_work': '''Научная работа\n
++Научная работа кафедры строится в соответствии с Перспективно-инновационным планом развития кафедры.\n
++
++Кафедра поддерживает творческие связи с ведущими университетами страны и научными учреждениями Российской Академией 
++Наук.\n
++
++ Монографии и учебные пособия \n
++
++2021\n
++
++• История России. Под ред: Б. Н. Земцова. Изд-во МГТУ им. Н.Э. Баумана. 2021.\n
++
++•  Земцов Б. Н.  Быковская, Г. А., Будрейко Е. Н. , Гвоздецкий В. Л. , Крылов А. О., Лобач Д. В. , Отрокова О.Ю. , 
++Суздалева Т. Р. , Федоров К. В. История науки и техники России. Под ред: Б. Н. Земцова.. Изд-во МГТУ им. Н.Э. 
++Баумана. 2021.\n
++
++2019\n
++
++• Земцов Б.Н. История отечественного государства и права Саратов: Ай Пи Эр Медиа, 2019. — 498 c.  Режим доступа: 
++http://www.iprbookshop.ru/78221.html\n
++
++• Земцов Б.Н. История отечественного государства и права: советский период (Учебник). СПб.: Изд – во Лань. 2018.
++ — 214 с.\n
++
++• Земцов Б.Н. История России. М.: Инфра-М. 2019. – 457 с. /250 с. (в соавторстве с Шубиным А.В., Данилевским И.Н.)\n
++
++2017\n
++
++• История ремесла, технических наук, и промышленности России в социальном контексте.Под ред. Б. Н. Земцова М.:
++ Изд-во МГТУ им. Н.Э. Баумана, 2017. 204 с.\n
++
++2014\n
++
++• Российская империя XVIII — начала XX веков: формирование полиэтнического пространства. Учебное пособие под ред. 
++Земцова Б.Н. М., МГТУ, 2014. – 89 с.\n
++
++• Земцов Б.Н.  Philosophy and history of the Soviet right. Saarbrücken, 2014.\n
++
++2013\n
++
++• Земцов Б , А. Шубин А., Данилевский И..  История России для студентов технических ВУЗов. Учебное пособие. СПб., 
++Питер, 2013\n
++
++• Земцов Б.Н. История политических и правовых учений. М., МЭСИ, 2013.\n
++
++•   Федоров К.В., Суздалева Т.Р., Давлетшина Н.В. Россия и мир во второй половине XX – начале XXI века: поиск 
++модели развития. М., МГТУ, 2013.\n
++
++2012\n
++
++• Земцов Б.Н. История России с древнейших времен до начала XX века. Учебное пособие. М., Издательство IDO, 2012.\n
++
++• История науки и техники. Учебное пособие. М., МГТУ, 2012 Электронный ресурс.\n
++
++2011\n
++
++• История науки и техники в России. В 3 Ч.  Под ред. К.В. Федорова, Б.Н. Земцова. – МГТУ, 2011. — 292 c.\n
++
++•  Факультет «Социальные и гуманитарные науки» Московского государственного технического университета им. Н.Э. 
++Баумана.    М., 2011. 128 с.\n
++
++ 2010\n
++
++• Спецкурсы по Отечественной истории: Учебно-методическое пособие / Под ред. К.В. Федорова. М., МГТУ. 2010. 112 c.\n
++''',
++    'shs1_academic_work': '''Учебная работа\n
++Кафедра представляет собой составную часть факультета «Социально-гуманитарные науки» (ФСГН). Главными целями 
++преподавания является формирование у студентов:\n
++-компетенций, позволяющих им самостоятельно анализировать современные социально-политические процессы в России и мире;\n
++-способности разбираться в тенденциях исторического процесса,\n
++-понимания места человека в историческом процессе,\n
++-осознания влияния научно-технических процессов на развитие общества,\n
++-практических навыков применения исторических знаний в повседневной жизни и инженерной деятельности.\n
++На кафедре разработаны учебные программы для подготовки студентов всех уровней: бакалавриата, магистратуры и 
++специалитета. Программы кафедры полностью соответствуют современным требованиям системы образования, состояния науки и 
++профиля МГТУ им. Н.Э. Баумана.  Учебный процесс строится на основе модульно-рейтинговой системы. Активно используются 
++инновационные обучающие технологии, современные методики преподавания истории, широко применяются современные 
++технические средства обучения, разработаны эффективные методы контроля усвоения студентами курса кафедры.\n
++
++В связи с присвоением в 2009 г. МГТУ им. Н.Э. Баумана статуса Федерального научно-исследовательского университета 
++техники и технологии наряду с образовательными и воспитательными задачами приоритетным направлением работы кафедры 
++«История» становится научно-исследовательская деятельность. На кафедре трудятся как уже известные ученые, получившие 
++признание в России и за рубежом, так и талантливые перспективные ученые.''',
++    'shs2_head_of_dep': '''Акимова Ирина Александровна
++
++Заведующая кафедрой социологии и культурологии, кандидат философских наук, доцент
++Образование:
++МГУ им. М.В. Ломоносова, преподаватель философии
++
++Научная и экспертная деятельность:
++Член Ученого совета факультета социальных и гуманитарных наук МГТУ им Н.Э. Баумана.
++Член комиссии «Лучший преподаватель МГТУ им. Н.Э. Баумана»
++Член Российского общества социологов
++Награждена Почетной грамотой Министерством образования и науки РФ
++
++Ведет дисциплины:
++Культурология, Социология коммуникаций
++
++Персональная страница преподавателя на сайте университета:
++https://bmstu.ru/ps/~akimova/
++
++Электронная почта преподавателя:
++akimova@bmstu.ru
++''',
++    'shs2_scientific_work': '''О кафедре
++Багдасарьян Н.Г., доктор философских наук, профессор, зав. кафедрой в 1987-2006 гг.
++
++Кафедра «Социологии и культурологии» появилась в МГТУ им. Н.Э. Баумана в 1987 г., на старте постсоветского этапа жизни Отечества. Она стала первой в технических вузах России кафедрой, чья учебная деятельность направлялась на принципиально неидеологическую сферу социально-гуманитарного знания. Бесспорное лидерство кафедры было обеспечено разработкой уникальной структуры и логики учебного курса культурологии, нашедших отражение в коллективном учебнике для технических вузов. Он, выдержав несколько изданий, стал образцом для сотни профильных вузов. Позже, в издательстве «Юрайт» вышли новые издания учебников «Культурология» и «Социология», представляющие собой современные учебно-методические комплексы дисциплин. Их особенность – в сочетании институционального и культурологического подходов к анализу социальных явлений. Ежегодное массовое переиздание учебников свидетельствует об их высокой востребованности.
++
++Интеллектуальный потенциал и профессиональные навыки преподавателей, осваивающих никогда прежде не существовавшие дисциплины, обеспечили решение сложнейшей задачи - институционализации социогуманитарной компоненты инженерного образования.
++
++Акимова И.А., кандидат философских наук, доцент, зав. кафедрой с 2006 г. по н.в.
++
++В 2016 г. кафедра одной из первых в системе высшего технического образования, начала подготовку специалистов-социологов в предметной области социологии техники и технологий. Открыто обучение бакалавров по программе «Социология техники и инженерной деятельности» и магистров по программе «Социальный анализ технологических инноваций и рисков». Это новые и перспективные междисциплинарные программы подготовки специалистов для изучения, объяснения и понимания проблем современной техносферы, что требует углубленных знаний социологии техники, информационных систем и цифровых технологий.
++
++В рамках международной образовательной и исследовательской кооперации по инициативе кафедры был заключен договор о сотрудничестве с одним из старейших вузов Европы – Технологическим институтом г. Карлсруэ (Германия) – KIT. Плотная работа ведется с его структурным подразделением – Институтом оценки технологий и системного анализа – ITAS, принявшего наших студентов на стажировку, в рамках которой они посетили бюро по оценке технологий при Бундестаге (TAB).
++
++
++Качество образовательного процесса обеспечивает высококвалифицированный состав преподавателей – доктора и кандидаты наук, в том числе PhD, профессора и доценты, а также специалисты-практики, сочетающие молодость и зрелость, большой опыт и инициативу, исследовательский потенциал и интерес к своей работе.
++
++
++''',
++    'shs2_academic_work': '''С 2016 году на кафедре была открыта специальность 39.03.01 «Социология» - подготовка бакалавра (профиль «Социология техники и инженерной деятельности»). В 2020 году состоялся первый выпуск.
++
++
++Студенты кафедры принимают активное участие в научной жизни кафедры, университета, страны: ежегодно участвуют в конференции «Студенческая весна», Всероссийском форуме научной молодежи «Богатство России», Всероссийском конкурсе научно-исследовательских работ в области инженерных и гуманитарных наук, Всероссийской инновационной молодежной научно-инженерной выставке «Политехника», занимая почетные призовые места.
++
++
++В 2020 году на кафедре открыта магистратура по направлению подготовки 39.04.01 «Социология»''',
++
+     'shs3_state': """Кафедра занимается подготовкой кадров по направлению «Прикладная информатика».
+-    Образовательной программой кафедры является «Информационная аналитика и политические технологии».
+-    Здесь студентов учат не только информатике, программированию, но и аналитике данных.
+-    Выпускники кафедры могут устроиться работать аналитиками данных в такие компании, как:
+-    Яндекс, ВК, Сбер, Аналитический Центр при Правительстве РФ, ВТБ, РЖД, и прочие. """,
++Образовательной программой кафедры является «Информационная аналитика и политические технологии».
++Здесь студентов учат не только информатике, программированию, но и аналитике данных.
++Выпускники кафедры могут устроиться работать аналитиками данных в такие компании, как:
++Яндекс, ВК, Сбер, Аналитический Центр при Правительстве РФ, ВТБ, РЖД, и прочие. """,
+ 
+     'shs4_state': """Кафедра СГН4 в основном нацелена на аспирантов Бауманки.\n
+-    Она занимается подготовкой аспирантов по дисциплинам:\n,
+-    1. «Социальная и политическая философия»\n
+-    2. «Философия науки и техники».\n
+-    Для студентов бакалавриата кафедра несёт исключительно преподавательский характер.\n
+-    Преподаватели ведут такие дисциплины, как «Логика» и «Философия».""",
++Она занимается подготовкой аспирантов по дисциплинам:\n,
++1. «Социальная и политическая философия»\n
++2. «Философия науки и техники».\n
++Для студентов бакалавриата кафедра несёт исключительно преподавательский характер.\n
++Преподаватели ведут такие дисциплины, как «Логика» и «Философия».""",
+ }
+ 
+ 
+@@ -163,11 +306,13 @@
+             if event.object.payload.get('type') == 'SHS1':
+ 
+                 self.state = VkBotState.SHS1_CLICKED
++                self.shs1_state_edit(event)
+                 self.shs1_clicked_handler(event)
+ 
+             elif event.object.payload.get('type') == 'SHS2':
+ 
+                 self.state = VkBotState.SHS2_CLICKED
++                self.shs2_state_edit(event)
+                 self.shs2_clicked_handler(event)
+ 
+             elif event.object.payload.get('type') == 'SHS3':
+@@ -208,6 +353,15 @@
+             attachment=self.attachments['shs4_state']
+         )
+ 
++    def back_keyboard(self):
++        keyboard = VkKeyboard(one_time=False, inline=True)
++        keyboard.add_callback_button(
++            label="Назад",
++            color=VkKeyboardColor.NEGATIVE,
++            payload={"type": "back"}
++        )
++        return keyboard
++
+     def deanery_clicked_handler(self, event):
+         last_id = self.vk.messages.edit(
+             peer_id=event.obj.peer_id,
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"3814f514-bf6a-4a90-afd8-42a8ea090772\" name=\"Changes\" comment=\"SHS3 &amp; SHS4 Realizations\">\r\n      <change beforePath=\"$PROJECT_DIR$/VkBot.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/VkBot.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 7\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2ddOJqciQiOmHyhtTiVh4tWuWTb\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Python.VkBot.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.main.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Desktop/Art's/BMSTU/SHS_VK_Bot&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\User\\Desktop\\Art's\\BMSTU\\SHS_VK_Bot\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\User\\Desktop\\Art's\\BMSTU\\SHS_VK_Bot\\resources\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"VkBot\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"SHS_VK_Bot\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/VkBot.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.VkBot\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-d68999036c7f-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.14475.56\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"3814f514-bf6a-4a90-afd8-42a8ea090772\" name=\"Changes\" comment=\"\" />\r\n      <created>1710334419200</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1710334419200</updated>\r\n      <workItem from=\"1710512717869\" duration=\"19670000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"SHS3_clicked realisation\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710674258204</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710674258204</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Completed code refactoring\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710695629323</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710695629323</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710706021679</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710706021679</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710706618719</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710706618719</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710707282395</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710707282395</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710707559918</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710707559918</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710708098980</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710708098980</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710708412415</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710708412415</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710708748401</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710708748401</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710705005138</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710705005138</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710705199536</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710705199536</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"SHS3 &amp; SHS4 Realizations\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1710705356487</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1710705356487</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"10\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"SHS3_clicked realisation\" />\r\n    <MESSAGE value=\"SHS3 &amp; SHS4 Realizations\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"SHS3 &amp; SHS4 Realizations\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/SHS_VK_Bot$VkBot.coverage\" NAME=\"VkBot Coverage Results\" MODIFIED=\"1710591489700\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/SHS_VK_Bot$main.coverage\" NAME=\"main Coverage Results\" MODIFIED=\"1710590348181\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 313517768432771b9b9211b57412129288dde3af)
++++ b/.idea/workspace.xml	(date 1710763203975)
+@@ -5,6 +5,7 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="SHS3 &amp; SHS4 Realizations">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/VkBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/VkBot.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -179,19 +180,19 @@
+     </task>
+     <task id="LOCAL-00010" summary="SHS3 &amp; SHS4 Realizations">
+       <option name="closed" value="true" />
+-      <created>1710705005138</created>
++      <created>1710709004815</created>
+       <option name="number" value="00010" />
+       <option name="presentableId" value="LOCAL-00010" />
+       <option name="project" value="LOCAL" />
+-      <updated>1710705005138</updated>
++      <updated>1710709004815</updated>
+     </task>
+     <task id="LOCAL-00011" summary="SHS3 &amp; SHS4 Realizations">
+       <option name="closed" value="true" />
+-      <created>1710705199536</created>
++      <created>1710709251927</created>
+       <option name="number" value="00011" />
+       <option name="presentableId" value="LOCAL-00011" />
+       <option name="project" value="LOCAL" />
+-      <updated>1710705199536</updated>
++      <updated>1710709251927</updated>
+     </task>
+     <task id="LOCAL-00012" summary="SHS3 &amp; SHS4 Realizations">
+       <option name="closed" value="true" />
+@@ -201,7 +202,7 @@
+       <option name="project" value="LOCAL" />
+       <updated>1710705356487</updated>
+     </task>
+-    <option name="localTasksCounter" value="10" />
++    <option name="localTasksCounter" value="12" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
