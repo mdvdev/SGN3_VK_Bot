@@ -200,7 +200,7 @@ class VkBotStateHandler:
             )
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'shs4_head_of_dep':
-                last_id = self.vk_bot.messages.edit(
+                self.vk_bot.messages.edit(
                     peer_id=event.obj.peer_id,
                     message=MESSAGES['shs4_head_of_dep'],
                     conversation_message_id=event.obj.conversation_message_id,
@@ -208,7 +208,7 @@ class VkBotStateHandler:
                     attachment=self.vk_bot.attachments['shs4_state']
                 )
             elif event.object.payload.get('type') == 'shs4_scientific_work':
-                last_id = self.vk_bot.messages.edit(
+                self.vk_bot.messages.edit(
                     peer_id=event.obj.peer_id,
                     message=MESSAGES['shs4_scientific_work'],
                     conversation_message_id=event.obj.conversation_message_id,
@@ -216,7 +216,7 @@ class VkBotStateHandler:
                     attachment=self.vk_bot.attachments['shs4_state']
                 )
             elif event.object.payload.get('type') == 'shs4_academic_work':
-                last_id = self.vk_bot.messages.edit(
+                self.vk_bot.messages.edit(
                     peer_id=event.obj.peer_id,
                     message=MESSAGES['shs4_academic_work'],
                     conversation_message_id=event.obj.conversation_message_id,
@@ -369,6 +369,7 @@ def shs4_keyboard():
         payload={"type": "back"}
     )
     return keyboard
+
 
 MESSAGES = {
     'deanery': """❕Кабинеты деканата располагаются в УЛК на 7 этаже.\n
