@@ -16,6 +16,8 @@ class VkBot:
             'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg'),
             'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.png'),
             'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.png'),
+            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.png'),
+            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.png')
         }
 
     def start(self):
@@ -33,7 +35,7 @@ class VkBot:
 
         elif self.state == VkBotState.SHS2_STATE:
 
-            self.state_handler.shs2_clicked_handler(event)
+            self.state_handler.shs2_state_handler(event)
 
         elif self.state == VkBotState.SHS3_STATE:
 
