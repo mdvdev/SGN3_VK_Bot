@@ -20,6 +20,18 @@ class VkBot:
             'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.png')
         }
 
+    def get_state(self):
+        return self.state
+
+    def set_state(self, state):
+        self.state = state
+
+    def get_vk(self):
+        return self.vk
+
+    def get_attachments(self):
+        return self.attachments
+
     def start(self):
         for event in self.longpoll.listen():
             self.step(event)
