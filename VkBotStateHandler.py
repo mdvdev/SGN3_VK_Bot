@@ -2,7 +2,6 @@ from VkBotState import VkBotState
 from vk_api.utils import get_random_id
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.bot_longpoll import VkBotEventType
-import json
 
 
 class VkBotStateHandler:
@@ -45,8 +44,6 @@ class VkBotStateHandler:
 
     def shs1_state_handler(self, event):
         if event.type == VkBotEventType.MESSAGE_NEW:
-            file = open('resources/messages.json', 'r')
-            messages = json.load(file)
             self.vk_bot.vk.messages.send(
                 user_id=event.obj.message['from_id'],
                 random_id=get_random_id(),
