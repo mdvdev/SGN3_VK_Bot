@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="Removed code lines">
+    <list default="true" id="3814f514-bf6a-4a90-afd8-42a8ea090772" name="Changes" comment="SHS3 &amp; SHS4 Realizations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VkBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/VkBot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VkBotStateHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/VkBotStateHandler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +23,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -33,26 +35,59 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.VkBot.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/ana/projects/SHS_VK_Bot/.venv/bin",
-    "settings.editor.selected.configurable": "preferences.fileTypes"
-  },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "JSON"
-    ]
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.VkBot.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Desktop/Art's/BMSTU/SHS_VK_Bot&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/resources" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Desktop\Art's\BMSTU\SHS_VK_Bot" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Desktop\Art's\BMSTU\SHS_VK_Bot\resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="VkBot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="SHS_VK_Bot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VkBot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.VkBot" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -69,14 +104,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1710334419200</updated>
+      <workItem from="1710512717869" duration="19670000" />
     </task>
-    <task id="LOCAL-00001" summary="Completed code refactoring">
+    <task id="LOCAL-00001" summary="SHS3_clicked realisation">
       <option name="closed" value="true" />
-      <created>1710694966323</created>
+      <created>1710674258204</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1710694966323</updated>
+      <updated>1710674258204</updated>
     </task>
     <task id="LOCAL-00002" summary="Completed code refactoring">
       <option name="closed" value="true" />
@@ -86,29 +122,134 @@
       <option name="project" value="LOCAL" />
       <updated>1710695629323</updated>
     </task>
-    <task id="LOCAL-00003" summary="Added VkBotStateHandler, VkBotState moved to standalone file, changed message text">
+    <task id="LOCAL-00003" summary="SHS3 &amp; SHS4 Realizations">
       <option name="closed" value="true" />
-      <created>1710774612055</created>
+      <created>1710706021679</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1710774612055</updated>
+      <updated>1710706021679</updated>
     </task>
-    <task id="LOCAL-00004" summary="Removed code lines">
+    <task id="LOCAL-00004" summary="SHS3 &amp; SHS4 Realizations">
       <option name="closed" value="true" />
-      <created>1710774840825</created>
+      <created>1710706618719</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1710774840825</updated>
+      <updated>1710706618719</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710707282395</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1710707282395</updated>
+    </task>
+    <task id="LOCAL-00006" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710707559918</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1710707559918</updated>
+    </task>
+    <task id="LOCAL-00007" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710708098980</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1710708098980</updated>
+    </task>
+    <task id="LOCAL-00008" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710708412415</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1710708412415</updated>
+    </task>
+    <task id="LOCAL-00009" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710708748401</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1710708748401</updated>
+    </task>
+    <task id="LOCAL-00010" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710766008569</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1710766008569</updated>
+    </task>
+    <task id="LOCAL-00011" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710766013844</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1710766013844</updated>
+    </task>
+    <task id="LOCAL-00012" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710776471316</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1710776471316</updated>
+    </task>
+    <task id="LOCAL-00013" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710776621988</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1710776621988</updated>
+    </task>
+    <task id="LOCAL-00014" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710778830824</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1710778830824</updated>
+    </task>
+    <task id="LOCAL-00015" summary="SHS3 &amp; SHS4 Realizations">
+      <option name="closed" value="true" />
+      <created>1710779007073</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1710779007073</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Completed code refactoring" />
-    <MESSAGE value="Added VkBotStateHandler, VkBotState moved to standalone file, changed message text" />
-    <MESSAGE value="Removed code lines" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed code lines" />
+    <MESSAGE value="SHS3_clicked realisation" />
+    <MESSAGE value="SHS3 &amp; SHS4 Realizations" />
+    <option name="LAST_COMMIT_MESSAGE" value="SHS3 &amp; SHS4 Realizations" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SHS_VK_Bot$VkBot.coverage" NAME="VkBot Coverage Results" MODIFIED="1710591489700" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SHS_VK_Bot$main.coverage" NAME="main Coverage Results" MODIFIED="1710590348181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
