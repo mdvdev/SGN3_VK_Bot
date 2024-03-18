@@ -10,29 +10,6 @@ MESSAGES = {
     Декан: Ремарчук Валерий Николаевич (кабинет 703л)\n
     Зам. декана по молодёжной политике\n
     и воспитательной деятельности: Гаврилова Юлия Викторовна""",
-
-    'shs1_state': """Кафедра СГН1 занимается исключительно преподавателькой деятельностью.\n
-    Её преподавательский состав преподаёт дисциплину «История России» всем студентам Бауманки""",
-
-    'shs2_state': """Кафедра занимается подготовкой кадров по направлению «Социалогия.»
-    Образовательной программой данной кафедры является «Социалогия техники и инженерной деятельности».
-    Выпускники кафедры востребованы в таких местах, как:\n
-    1. В органах государственной и муниципальной власти;\n
-    2. В экспертных структурах и в информационно-аналитических центрах;\n
-    3. В агентствах по найму и управлению персоналом;""",
-
-    'shs3_state': """Кафедра занимается подготовкой кадров по направлению «Прикладная информатика».
-    Образовательной программой кафедры является «Информационная аналитика и политические технологии».
-    Здесь студентов учат не только информатике, программированию, но и аналитике данных.
-    Выпускники кафедры могут устроиться работать аналитиками данных в такие компании, как:
-    Яндекс, ВК, Сбер, Аналитический Центр при Правительстве РФ, ВТБ, РЖД, и прочие. """,
-
-    'shs4_state': """Кафедра СГН4 в основном нацелена на аспирантов Бауманки.\n
-    Она занимается подготовкой аспирантов по дисциплинам:\n,
-    1. «Социальная и политическая философия»\n
-    2. «Философия науки и техники».\n
-    Для студентов бакалавриата кафедра несёт исключительно преподавательский характер.\n
-    Преподаватели ведут такие дисциплины, как «Логика» и «Философия».""",
 }
 
 
@@ -66,50 +43,6 @@ def init_state_keyboard():
     return keyboard
 
 
-def shs3_keyboard():
-    keyboard = VkKeyboard(one_time=False, inline=True)
-    keyboard.add_callback_button(
-        label="Заведующий кафедрой",
-        color=VkKeyboardColor.POSITIVE,
-        payload={"type": "head_of_division", "text": "Ремарчук Валерий Николаевич"},
-    )
-    keyboard.add_line()
-    keyboard.add_callback_button(
-        label="Научная работа",
-        color=VkKeyboardColor.POSITIVE,
-        payload={"type": "science_work", "text": "Тут будет научная работа"},
-    )
-    keyboard.add_line()
-    keyboard.add_callback_button(
-        label="Учебная работа",
-        color=VkKeyboardColor.POSITIVE,
-        payload={"type": "studies_work", "text": "Тут будет учебная работа"}
-    )
-    keyboard.add_line()
-    keyboard.add_callback_button(
-        label="Назад",
-        color=VkKeyboardColor.NEGATIVE,
-        payload={"type": "back"}
-    )
-    return keyboard
-
-
-def shs4_keyboard():
-    keyboard = VkKeyboard(one_time=False, inline=True)
-    keyboard.add_callback_button(
-        label="Заведующий кафедрой",
-        color=VkKeyboardColor.POSITIVE,
-        payload={"type": "head_of_division", "link": "Ивлев Виталий Юрьевич"},
-    )
-    keyboard.add_line()
-    keyboard.add_callback_button(
-        label="Назад",
-        color=VkKeyboardColor.NEGATIVE,
-        payload={"type": "back"}
-    )
-    return keyboard
-
-
 class VkBot:
     def __init__(self, group_id, group_token):
         self.state = VkBotState.INIT_STATE
@@ -117,11 +50,7 @@ class VkBot:
         self.vk = self.vk_session.get_api()
         self.longpoll = VkBotLongPoll(self.vk_session, group_id=group_id)
         self.attachments = {
-            'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg'),
-            'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.png'),
-            'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.png'),
-            'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.png'),
-            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.png'),
+            'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg')
         }
 
     def start(self):
@@ -191,22 +120,10 @@ class VkBot:
         pass
 
     def shs3_clicked_handler(self, event):
-        last_id = self.vk.messages.edit(
-            peer_id=event.obj.peer_id,
-            message=MESSAGES['shs3_state'],
-            conversation_message_id=event.obj.conversation_message_id,
-            keyboard=shs3_keyboard().get_keyboard(),
-            attachment=self.attachments['shs3_state']
-        )
+        pass
 
     def shs4_clicked_handler(self, event):
-        last_id = self.vk.messages.edit(
-            peer_id=event.obj.peer_id,
-            message=MESSAGES['shs4_state'],
-            conversation_message_id=event.obj.conversation_message_id,
-            keyboard=shs4_keyboard().get_keyboard(),
-            attachment=self.attachments['shs4_state']
-        )
+        pass
 
     def deanery_clicked_handler(self, event):
         last_id = self.vk.messages.edit(
@@ -216,4 +133,3 @@ class VkBot:
             keyboard=init_state_keyboard().get_keyboard(),
             attachment=self.attachments['init_state']
         )
-
