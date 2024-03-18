@@ -146,33 +146,33 @@ class VkBotStateHandler:
                 random_id=get_random_id(),
                 peer_id=event.obj.message['from_id'],
                 keyboard=shs3_keyboard().get_keyboard(),
-                message=MESSAGES['shs2_state'],
-                attachment=self.vk_bot.attachments['shs2_state']
+                message=MESSAGES['shs3_state'],
+                attachment=self.vk_bot.attachments['shs3_state']
             )
         elif event.type == VkBotEventType.MESSAGE_EVENT:
-            if event.object.payload.get('type') == 'shs2_head_of_dep':
+            if event.object.payload.get('type') == 'shs3_head_of_dep':
                 self.vk_bot.vk.messages.edit(
                     peer_id=event.obj.peer_id,
-                    message=MESSAGES['shs2_head_of_dep'],
+                    message=MESSAGES['shs3_head_of_dep'],
                     conversation_message_id=event.obj.conversation_message_id,
                     keyboard=shs3_keyboard().get_keyboard(),
-                    attachment=self.vk_bot.attachments['shs2_state']
+                    attachment=self.vk_bot.attachments['shs3_state']
                 )
-            elif event.object.payload.get('type') == 'shs2_scientific_work':
+            elif event.object.payload.get('type') == 'shs3_scientific_work':
                 self.vk_bot.vk.messages.edit(
                     peer_id=event.obj.peer_id,
-                    message=MESSAGES['shs2_scientific_work'],
+                    message=MESSAGES['shs3_scientific_work'],
                     conversation_message_id=event.obj.conversation_message_id,
                     keyboard=shs3_keyboard().get_keyboard(),
-                    attachment=self.vk_bot.attachments['shs2_state']
+                    attachment=self.vk_bot.attachments['shs3_state']
                 )
             elif event.object.payload.get('type') == 'shs2_academic_work':
                 self.vk_bot.vk.messages.edit(
                     peer_id=event.obj.peer_id,
-                    message=MESSAGES['shs2_academic_work'],
+                    message=MESSAGES['shs3_academic_work'],
                     conversation_message_id=event.obj.conversation_message_id,
                     keyboard=shs3_keyboard().get_keyboard(),
-                    attachment=self.vk_bot.attachments['shs2_state']
+                    attachment=self.vk_bot.attachments['shs3_state']
                 )
             elif event.object.payload.get('type') == 'back':
                 self.vk_bot.state = VkBotState.INIT_STATE
