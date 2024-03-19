@@ -1,5 +1,4 @@
 import vk_api.exceptions
-
 from VkBotState import VkBotState
 from vk_api.utils import get_random_id
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
