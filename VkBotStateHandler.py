@@ -242,13 +242,33 @@ class VkBotStateHandler:
 
 def init_state_keyboard():
     keyboard = VkKeyboard(one_time=False, inline=True)
-    keyboard.add_callback_button(label='СГН1', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS1"})
-    keyboard.add_callback_button(label='СГН2', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS2"})
+    keyboard.add_callback_button(
+        label='СГН1',
+        color=VkKeyboardColor.PRIMARY,
+        payload={"type": "SHS1"}
+    )
+    keyboard.add_callback_button(
+        label='СГН2',
+        color=VkKeyboardColor.PRIMARY,
+        payload={"type": "SHS2"}
+    )
     keyboard.add_line()
-    keyboard.add_callback_button(label='СГН3', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS3"})
-    keyboard.add_callback_button(label='СГН4', color=VkKeyboardColor.PRIMARY, payload={"type": "SHS4"})
+    keyboard.add_callback_button(
+        label='СГН3',
+        color=VkKeyboardColor.PRIMARY,
+        payload={"type": "SHS3"}
+    )
+    keyboard.add_callback_button(
+        label='СГН4',
+        color=VkKeyboardColor.PRIMARY,
+        payload={"type": "SHS4"}
+    )
     keyboard.add_line()
-    keyboard.add_callback_button(label='Деканат', color=VkKeyboardColor.POSITIVE, payload={"type": "DEANERY"})
+    keyboard.add_callback_button(
+        label='Деканат',
+        color=VkKeyboardColor.POSITIVE,
+        payload={"type": "DEANERY"}
+    )
     return keyboard
 
 
