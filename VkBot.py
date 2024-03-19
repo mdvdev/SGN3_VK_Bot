@@ -60,9 +60,9 @@ class VkBot:
 
 def upload_photo(vk_session, photo):
     upload = VkUpload(vk_session)
-    response = upload.photo_messages(photo)[0]
-    owner_id = response['owner_id']
-    photo_id = response['id']
-    access_key = response['access_key']
+    photo = upload.photo_messages(photo)
+    owner_id = photo[0]['owner_id']
+    photo_id = photo[0]['id']
+    access_key = photo[0]['access_key']
     attachment = f'photo{owner_id}_{photo_id}_{access_key}'
     return attachment
