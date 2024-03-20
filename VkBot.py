@@ -7,10 +7,10 @@ from VkBotState import VkBotState
 
 class VkBot:
     def __init__(self, group_id, group_token):
-        self.state = VkBotState.INIT_STATE
         self.vk_session = vk_api.VkApi(token=group_token)
         self.vk = self.vk_session.get_api()
         self.longpoll = VkBotLongPoll(self.vk_session, group_id=group_id)
+        self.states = {}
         self.state_handler = VkBotStateHandler(self)
         self.attachments = {
             'init_state': upload_photo(self.vk_session, 'resources/sgn.jpg'),
@@ -20,11 +20,8 @@ class VkBot:
             'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.JPG')
         }
 
-    def get_state(self):
-        return self.state
-
-    def set_state(self, state):
-        self.state = state
+    def set_state(self, state, user_id):
+        self.states[user_id] = state
 
     def get_vk(self):
         return self.vk
@@ -34,27 +31,23 @@ class VkBot:
 
     def start(self):
         for event in self.longpoll.listen():
+            user_id = event.obj.from_id
+            if user_id not in self.states:
+                self.states[user_id] = VkBotState.INIT_STATE
             self.step(event)
 
     def step(self, event):
-        if self.state == VkBotState.INIT_STATE:
-
+        user_id = event.obj.from_id
+        state = self.states[user_id]
+        if state == VkBotState.INIT_STATE:
             self.state_handler.init_state_handler(event)
-
-        elif self.state == VkBotState.SHS1_STATE:
-
+        elif state == VkBotState.SHS1_STATE:
             self.state_handler.shs1_state_handler(event)
-
-        elif self.state == VkBotState.SHS2_STATE:
-
+        elif state == VkBotState.SHS2_STATE:
             self.state_handler.shs2_state_handler(event)
-
-        elif self.state == VkBotState.SHS3_STATE:
-
+        elif state == VkBotState.SHS3_STATE:
             self.state_handler.shs3_state_handler(event)
-
-        elif self.state == VkBotState.SHS4_STATE:
-
+        elif state == VkBotState.SHS4_STATE:
             self.state_handler.shs4_state_handler(event)
 
 

@@ -23,17 +23,18 @@ class VkBotStateHandler:
             except vk_api.exceptions.ApiError as e:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
+            user_id = event.obj.from_id
             if event.object.payload.get('type') == 'SHS1':
-                self.vk_bot.set_state(VkBotState.SHS1_STATE)
+                self.vk_bot.set_state(VkBotState.SHS1_STATE, user_id)
                 self.shs1_state_edit(event)
             elif event.object.payload.get('type') == 'SHS2':
-                self.vk_bot.set_state(VkBotState.SHS2_STATE)
+                self.vk_bot.set_state(VkBotState.SHS2_STATE, user_id)
                 self.shs2_state_edit(event)
             elif event.object.payload.get('type') == 'SHS3':
-                self.vk_bot.set_state(VkBotState.SHS3_STATE)
+                self.vk_bot.set_state(VkBotState.SHS3_STATE, user_id)
                 self.shs3_state_edit(event)
             elif event.object.payload.get('type') == 'SHS4':
-                self.vk_bot.set_state(VkBotState.SHS4_STATE)
+                self.vk_bot.set_state(VkBotState.SHS4_STATE, user_id)
                 self.shs4_state_edit(event)
             elif event.object.payload.get('type') == 'DEANERY':
                 self.deanery_clicked_handler(event)
@@ -65,7 +66,8 @@ class VkBotStateHandler:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'back':
-                self.vk_bot.set_state(VkBotState.INIT_STATE)
+                user_id = event.obj.from_id
+                self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
                 self.init_state_edit(event)
             else:
                 try:
@@ -109,7 +111,8 @@ class VkBotStateHandler:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'back':
-                self.vk_bot.set_state(VkBotState.INIT_STATE)
+                user_id = event.obj.from_id
+                self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
                 self.init_state_edit(event)
             else:
                 try:
@@ -153,7 +156,8 @@ class VkBotStateHandler:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'back':
-                self.vk_bot.set_state(VkBotState.INIT_STATE)
+                user_id = event.obj.from_id
+                self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
                 self.init_state_edit(event)
             else:
                 try:
@@ -197,7 +201,8 @@ class VkBotStateHandler:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'back':
-                self.vk_bot.set_state(VkBotState.INIT_STATE)
+                user_id = event.obj.from_id
+                self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
                 self.init_state_edit(event)
             else:
                 try:
