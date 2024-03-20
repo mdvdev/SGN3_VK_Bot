@@ -1,5 +1,5 @@
 import vk_api
-from vk_api.bot_longpoll import VkBotLongPoll
+from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api import VkUpload
 from VkBotStateHandler import VkBotStateHandler
 from VkBotState import VkBotState
@@ -31,14 +31,23 @@ class VkBot:
 
     def start(self):
         for event in self.longpoll.listen():
-            user_id = event.obj.from_id
-            if user_id not in self.states:
-                self.states[user_id] = VkBotState.INIT_STATE
-            self.step(event)
+            if event.type == VkBotEventType.MESSAGE_NEW or event.type == VkBotEventType.MESSAGE_EVENT:
+                self.step(event)
 
     def step(self, event):
-        user_id = event.obj.from_id
+        if event.type == VkBotEventType.MESSAGE_NEW:
+            user_id = event.obj.message['from_id']
+        elif event.type == VkBotEventType.MESSAGE_EVENT:
+            user_id = event.obj.user_id
+        else:
+            print('Invalid event occured in FSM step')
+            return
+
+        if user_id not in self.states:
+            self.states[user_id] = VkBotState.INIT_STATE
+
         state = self.states[user_id]
+
         if state == VkBotState.INIT_STATE:
             self.state_handler.init_state_handler(event)
         elif state == VkBotState.SHS1_STATE:
@@ -52,10 +61,13 @@ class VkBot:
 
 
 def upload_photo(vk_session, photo):
-    upload = VkUpload(vk_session)
-    photo = upload.photo_messages(photo)
-    owner_id = photo[0]['owner_id']
-    photo_id = photo[0]['id']
-    access_key = photo[0]['access_key']
-    attachment = f'photo{owner_id}_{photo_id}_{access_key}'
-    return attachment
+    try:
+        upload = VkUpload(vk_session)
+        photo = upload.photo_messages(photo)
+        owner_id = photo[0]['owner_id']
+        photo_id = photo[0]['id']
+        access_key = photo[0]['access_key']
+        attachment = f'photo{owner_id}_{photo_id}_{access_key}'
+        return attachment
+    except vk_api.exceptions.ApiError as e:
+        print(e)

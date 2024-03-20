@@ -23,7 +23,7 @@ class VkBotStateHandler:
             except vk_api.exceptions.ApiError as e:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
-            user_id = event.obj.from_id
+            user_id = event.obj.user_id
             if event.object.payload.get('type') == 'SHS1':
                 self.vk_bot.set_state(VkBotState.SHS1_STATE, user_id)
                 self.shs1_state_edit(event)
@@ -66,7 +66,7 @@ class VkBotStateHandler:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'back':
-                user_id = event.obj.from_id
+                user_id = event.obj.user_id
                 self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
                 self.init_state_edit(event)
             else:
@@ -111,7 +111,7 @@ class VkBotStateHandler:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'back':
-                user_id = event.obj.from_id
+                user_id = event.obj.user_id
                 self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
                 self.init_state_edit(event)
             else:
@@ -156,7 +156,7 @@ class VkBotStateHandler:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'back':
-                user_id = event.obj.from_id
+                user_id = event.obj.user_id
                 self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
                 self.init_state_edit(event)
             else:
@@ -201,7 +201,7 @@ class VkBotStateHandler:
                 print(e)
         elif event.type == VkBotEventType.MESSAGE_EVENT:
             if event.object.payload.get('type') == 'back':
-                user_id = event.obj.from_id
+                user_id = event.obj.user_id
                 self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
                 self.init_state_edit(event)
             else:
