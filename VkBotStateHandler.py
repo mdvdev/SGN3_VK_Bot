@@ -5,6 +5,45 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.bot_longpoll import VkBotEventType
 
 
+def state_to_str(state):
+    if state == VkBotState.SHS1_STATE:
+        return "shs1_state"
+    elif state == VkBotState.SHS2_STATE:
+        return "shs2_state"
+    elif state == VkBotState.SHS3_STATE:
+        return "shs3_state"
+    elif state == VkBotState.SHS4_STATE:
+        return "shs4_state"
+    else:
+        return ""
+
+
+def get_dep_head(state):
+    if state == VkBotState.SHS1_STATE:
+        return "shs1_head_of_dep"
+    elif state == VkBotState.SHS2_STATE:
+        return "shs2_head_of_dep"
+    elif state == VkBotState.SHS3_STATE:
+        return "shs3_head_of_dep"
+    elif state == VkBotState.SHS4_STATE:
+        return "shs4_head_of_dep"
+    else:
+        return ""
+
+
+def get_state_keyboard(state):
+    if state == VkBotState.SHS1_STATE:
+        return shs1_keyboard()
+    elif state == VkBotState.SHS2_STATE:
+        return shs2_keyboard()
+    elif state == VkBotState.SHS3_STATE:
+        return shs3_keyboard()
+    elif state == VkBotState.SHS4_STATE:
+        return shs4_keyboard()
+    else:
+        return None
+
+
 class VkBotStateHandler:
     def __init__(self, vk_bot):
         self.vk_bot = vk_bot
@@ -22,21 +61,33 @@ class VkBotStateHandler:
                 )
             except vk_api.exceptions.ApiError as e:
                 print(e)
+
         elif event.type == VkBotEventType.MESSAGE_EVENT:
+
             user_id = event.obj.user_id
+
             if event.object.payload.get('type') == 'SHS1':
+
                 self.vk_bot.set_state(VkBotState.SHS1_STATE, user_id)
-                self.shs1_state_edit(event)
+                self.shs_state_edit(VkBotState.SHS1_STATE, event)
+
             elif event.object.payload.get('type') == 'SHS2':
+
                 self.vk_bot.set_state(VkBotState.SHS2_STATE, user_id)
-                self.shs2_state_edit(event)
+                self.shs_state_edit(VkBotState.SHS2_STATE, event)
+
             elif event.object.payload.get('type') == 'SHS3':
+
                 self.vk_bot.set_state(VkBotState.SHS3_STATE, user_id)
-                self.shs3_state_edit(event)
+                self.shs_state_edit(VkBotState.SHS3_STATE, event)
+
             elif event.object.payload.get('type') == 'SHS4':
+
                 self.vk_bot.set_state(VkBotState.SHS4_STATE, user_id)
-                self.shs4_state_edit(event)
+                self.shs_state_edit(VkBotState.SHS4_STATE, event)
+
             elif event.object.payload.get('type') == 'DEANERY':
+
                 self.deanery_clicked_handler(event)
 
     def init_state_edit(self, event):
@@ -51,16 +102,16 @@ class VkBotStateHandler:
         except vk_api.exceptions.ApiError as e:
             print(e)
 
-    def shs1_state_handler(self, event):
+    def shs_state_handler(self, state, event):
         if event.type == VkBotEventType.MESSAGE_NEW:
             try:
                 self.vk_bot.get_vk().messages.send(
                     user_id=event.obj.message['from_id'],
                     random_id=get_random_id(),
                     peer_id=event.obj.message['from_id'],
-                    keyboard=shs1_keyboard().get_keyboard(),
-                    message=MESSAGES['shs1_state'],
-                    attachment=self.vk_bot.get_attachments()['shs1_state']
+                    keyboard=get_state_keyboard(state).get_keyboard(),
+                    message=MESSAGES[state_to_str(state)],
+                    attachment=self.vk_bot.get_attachments()[state_to_str(state)]
                 )
             except vk_api.exceptions.ApiError as e:
                 print(e)
@@ -71,17 +122,19 @@ class VkBotStateHandler:
                 self.init_state_edit(event)
             else:
                 try:
-                    message_type = event.object.payload.get('type')
-                    message = MESSAGES[message_type]
-                    if message_type == "shs1_head_of_dep":
-                        attachment = self.vk_bot.get_attachments()[message_type]
+                    button_type = event.object.payload.get('type')
+                    message = MESSAGES[button_type]
+
+                    if button_type == get_dep_head(state):
+                        attachment = self.vk_bot.get_attachments()[button_type]
                     else:
-                        attachment = self.vk_bot.get_attachments()['shs1_state']
+                        attachment = self.vk_bot.get_attachments()[state_to_str(state)]
+
                     self.vk_bot.get_vk().messages.edit(
                         peer_id=event.obj.peer_id,
                         message=message,
                         conversation_message_id=event.obj.conversation_message_id,
-                        keyboard=shs1_keyboard().get_keyboard(),
+                        keyboard=get_state_keyboard(state).get_keyboard(),
                         attachment=attachment
                     )
                 except KeyError:
@@ -89,164 +142,14 @@ class VkBotStateHandler:
                 except vk_api.exceptions.ApiError as e:
                     print(e)
 
-    def shs1_state_edit(self, event):
+    def shs_state_edit(self, state, event):
         try:
             self.vk_bot.get_vk().messages.edit(
                 peer_id=event.object.peer_id,
-                message=MESSAGES['shs1_state'],
+                message=MESSAGES[state_to_str(state)],
                 conversation_message_id=event.obj.conversation_message_id,
-                attachment=self.vk_bot.get_attachments()['shs1_state'],
-                keyboard=shs1_keyboard().get_keyboard()
-            )
-        except vk_api.exceptions.ApiError as e:
-            print(e)
-
-    def shs2_state_handler(self, event):
-        if event.type == VkBotEventType.MESSAGE_NEW:
-            try:
-                self.vk_bot.get_vk().messages.send(
-                    user_id=event.obj.message['from_id'],
-                    random_id=get_random_id(),
-                    peer_id=event.obj.message['from_id'],
-                    keyboard=shs2_keyboard().get_keyboard(),
-                    message=MESSAGES['shs2_state'],
-                    attachment=self.vk_bot.get_attachments()['shs2_state']
-                )
-            except vk_api.exceptions.ApiError as e:
-                print(e)
-        elif event.type == VkBotEventType.MESSAGE_EVENT:
-            if event.object.payload.get('type') == 'back':
-                user_id = event.obj.user_id
-                self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
-                self.init_state_edit(event)
-            else:
-                try:
-                    message_type = event.object.payload.get('type')
-                    message = MESSAGES[message_type]
-                    if message_type == "shs2_head_of_dep":
-                        attachment = self.vk_bot.get_attachments()[message_type]
-                    else:
-                        attachment = self.vk_bot.get_attachments()['shs2_state']
-                    self.vk_bot.get_vk().messages.edit(
-                        peer_id=event.obj.peer_id,
-                        message=message,
-                        conversation_message_id=event.obj.conversation_message_id,
-                        keyboard=shs2_keyboard().get_keyboard(),
-                        attachment=attachment
-                    )
-                except KeyError:
-                    print('Error: unknown button clicked in SHS2')
-                except vk_api.exceptions.ApiError as e:
-                    print(e)
-
-    def shs2_state_edit(self, event):
-        try:
-            self.vk_bot.get_vk().messages.edit(
-                peer_id=event.object.peer_id,
-                message=MESSAGES['shs2_state'],
-                conversation_message_id=event.obj.conversation_message_id,
-                attachment=self.vk_bot.get_attachments()['shs2_state'],
-                keyboard=shs2_keyboard().get_keyboard()
-            )
-        except vk_api.exceptions.ApiError as e:
-            print(e)
-
-    def shs3_state_handler(self, event):
-        if event.type == VkBotEventType.MESSAGE_NEW:
-            try:
-                self.vk_bot.get_vk().messages.send(
-                    user_id=event.obj.message['from_id'],
-                    random_id=get_random_id(),
-                    peer_id=event.obj.message['from_id'],
-                    keyboard=shs3_keyboard().get_keyboard(),
-                    message=MESSAGES['shs3_state'],
-                    attachment=self.vk_bot.get_attachments()['shs3_state']
-                )
-            except vk_api.exceptions.ApiError as e:
-                print(e)
-        elif event.type == VkBotEventType.MESSAGE_EVENT:
-            if event.object.payload.get('type') == 'back':
-                user_id = event.obj.user_id
-                self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
-                self.init_state_edit(event)
-            else:
-                try:
-                    message_type = event.object.payload.get('type')
-                    message = MESSAGES[message_type]
-                    if message_type == "shs3_head_of_dep":
-                        attachment = self.vk_bot.get_attachments()[message_type]
-                    else:
-                        attachment = self.vk_bot.get_attachments()['shs3_state']
-                    self.vk_bot.get_vk().messages.edit(
-                        peer_id=event.obj.peer_id,
-                        message=message,
-                        conversation_message_id=event.obj.conversation_message_id,
-                        keyboard=shs3_keyboard().get_keyboard(),
-                        attachment=attachment
-                    )
-                except KeyError:
-                    print('Error: unknown button clicked in SHS3')
-                except vk_api.exceptions.ApiError as e:
-                    print(e)
-
-    def shs3_state_edit(self, event):
-        try:
-            self.vk_bot.get_vk().messages.edit(
-                peer_id=event.object.peer_id,
-                message=MESSAGES['shs3_state'],
-                conversation_message_id=event.obj.conversation_message_id,
-                attachment=self.vk_bot.get_attachments()['shs3_state'],
-                keyboard=shs3_keyboard().get_keyboard()
-            )
-        except vk_api.exceptions.ApiError as e:
-            print(e)
-
-    def shs4_state_handler(self, event):
-        if event.type == VkBotEventType.MESSAGE_NEW:
-            try:
-                self.vk_bot.get_vk().messages.send(
-                    user_id=event.obj.message['from_id'],
-                    random_id=get_random_id(),
-                    peer_id=event.obj.message['from_id'],
-                    keyboard=shs4_keyboard().get_keyboard(),
-                    message=MESSAGES['shs4_state'],
-                    attachment=self.vk_bot.get_attachments()['shs4_state']
-                )
-            except vk_api.exceptions.ApiError as e:
-                print(e)
-        elif event.type == VkBotEventType.MESSAGE_EVENT:
-            if event.object.payload.get('type') == 'back':
-                user_id = event.obj.user_id
-                self.vk_bot.set_state(VkBotState.INIT_STATE, user_id)
-                self.init_state_edit(event)
-            else:
-                try:
-                    message_type = event.object.payload.get('type')
-                    message = MESSAGES[message_type]
-                    if message_type == "shs4_head_of_dep":
-                        attachment = self.vk_bot.get_attachments()[message_type]
-                    else:
-                        attachment = self.vk_bot.get_attachments()['shs4_state']
-                    self.vk_bot.get_vk().messages.edit(
-                        peer_id=event.obj.peer_id,
-                        message=message,
-                        conversation_message_id=event.obj.conversation_message_id,
-                        keyboard=shs4_keyboard().get_keyboard(),
-                        attachment=attachment
-                    )
-                except KeyError:
-                    print('Error: unknown button clicked in SHS4')
-                except vk_api.exceptions.ApiError as e:
-                    print(e)
-
-    def shs4_state_edit(self, event):
-        try:
-            self.vk_bot.get_vk().messages.edit(
-                peer_id=event.object.peer_id,
-                message=MESSAGES['shs4_state'],
-                conversation_message_id=event.obj.conversation_message_id,
-                attachment=self.vk_bot.get_attachments()['shs4_state'],
-                keyboard=shs4_keyboard().get_keyboard()
+                attachment=self.vk_bot.get_attachments()[state_to_str(state)],
+                keyboard=get_state_keyboard(state).get_keyboard()
             )
         except vk_api.exceptions.ApiError as e:
             print(e)
