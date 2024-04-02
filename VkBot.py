@@ -17,7 +17,11 @@ class VkBot:
             'shs1_state': upload_photo(self.vk_session, 'resources/sgn1.JPG'),
             'shs2_state': upload_photo(self.vk_session, 'resources/sgn2.JPG'),
             'shs3_state': upload_photo(self.vk_session, 'resources/sgn3.JPG'),
-            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.JPG')
+            'shs4_state': upload_photo(self.vk_session, 'resources/sgn4.JPG'),
+            'shs1_head_of_dep': upload_photo(self.vk_session, 'resources/shs1_head_of_dep.JPG'),
+            'shs2_head_of_dep': upload_photo(self.vk_session, 'resources/shs2_head_of_dep.JPG'),
+            'shs3_head_of_dep': upload_photo(self.vk_session, 'resources/shs3_head_of_dep.JPG'),
+            'shs4_head_of_dep': upload_photo(self.vk_session, 'resources/shs4_head_of_dep.JPG'),
         }
 
     def set_state(self, state, user_id):
