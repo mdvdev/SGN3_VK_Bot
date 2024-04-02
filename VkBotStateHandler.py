@@ -71,13 +71,18 @@ class VkBotStateHandler:
                 self.init_state_edit(event)
             else:
                 try:
-                    message = MESSAGES[event.object.payload.get('type')]
+                    message_type = event.object.payload.get('type')
+                    message = MESSAGES[message_type]
+                    if message_type == "shs1_head_of_dep":
+                        attachment = self.vk_bot.get_attachments()[message_type]
+                    else:
+                        attachment = self.vk_bot.get_attachments()['shs1_state']
                     self.vk_bot.get_vk().messages.edit(
                         peer_id=event.obj.peer_id,
                         message=message,
                         conversation_message_id=event.obj.conversation_message_id,
                         keyboard=shs1_keyboard().get_keyboard(),
-                        attachment=self.vk_bot.get_attachments()['shs1_state']
+                        attachment=attachment
                     )
                 except KeyError:
                     print('Error: unknown button clicked in SHS1')
@@ -116,13 +121,18 @@ class VkBotStateHandler:
                 self.init_state_edit(event)
             else:
                 try:
-                    message = MESSAGES[event.object.payload.get('type')]
+                    message_type = event.object.payload.get('type')
+                    message = MESSAGES[message_type]
+                    if message_type == "shs2_head_of_dep":
+                        attachment = self.vk_bot.get_attachments()[message_type]
+                    else:
+                        attachment = self.vk_bot.get_attachments()['shs2_state']
                     self.vk_bot.get_vk().messages.edit(
                         peer_id=event.obj.peer_id,
                         message=message,
                         conversation_message_id=event.obj.conversation_message_id,
                         keyboard=shs2_keyboard().get_keyboard(),
-                        attachment=self.vk_bot.get_attachments()['shs2_state']
+                        attachment=attachment
                     )
                 except KeyError:
                     print('Error: unknown button clicked in SHS2')
@@ -161,13 +171,18 @@ class VkBotStateHandler:
                 self.init_state_edit(event)
             else:
                 try:
-                    message = MESSAGES[event.object.payload.get('type')]
+                    message_type = event.object.payload.get('type')
+                    message = MESSAGES[message_type]
+                    if message_type == "shs3_head_of_dep":
+                        attachment = self.vk_bot.get_attachments()[message_type]
+                    else:
+                        attachment = self.vk_bot.get_attachments()['shs3_state']
                     self.vk_bot.get_vk().messages.edit(
                         peer_id=event.obj.peer_id,
                         message=message,
                         conversation_message_id=event.obj.conversation_message_id,
                         keyboard=shs3_keyboard().get_keyboard(),
-                        attachment=self.vk_bot.get_attachments()['shs3_state']
+                        attachment=attachment
                     )
                 except KeyError:
                     print('Error: unknown button clicked in SHS3')
@@ -206,13 +221,18 @@ class VkBotStateHandler:
                 self.init_state_edit(event)
             else:
                 try:
-                    message = MESSAGES[event.object.payload.get('type')]
+                    message_type = event.object.payload.get('type')
+                    message = MESSAGES[message_type]
+                    if message_type == "shs4_head_of_dep":
+                        attachment = self.vk_bot.get_attachments()[message_type]
+                    else:
+                        attachment = self.vk_bot.get_attachments()['shs4_state']
                     self.vk_bot.get_vk().messages.edit(
                         peer_id=event.obj.peer_id,
                         message=message,
                         conversation_message_id=event.obj.conversation_message_id,
                         keyboard=shs4_keyboard().get_keyboard(),
-                        attachment=self.vk_bot.get_attachments()['shs4_state']
+                        attachment=attachment
                     )
                 except KeyError:
                     print('Error: unknown button clicked in SHS4')
